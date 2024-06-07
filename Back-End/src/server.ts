@@ -21,6 +21,13 @@ async function startServer() {
         app.use(helmet());
         app.use(cors());
 
+        // Body Parsing Middleware for Json
+        app.use(express.json());
+
+        app.get('/', (_req, res) => {
+            res.json({message: 'Creator Trends Backend is running!'});
+        });
+
         // Rate Limiting Middleware
         const limiter = rateLimit({
             windowMs: 15 * 60 * 1000,
@@ -29,9 +36,6 @@ async function startServer() {
             legacyHeaders: false,
         });
         app.use(limiter);
-
-        // Body Parsing Middleware for Json
-        app.use(express.json());
 
         // Routes
         app.use('/api/auth', authRoutes);
@@ -46,9 +50,6 @@ async function startServer() {
             console.log(`Server is listening on port ${port}`);
         });
 
-        app.get('/', (_req, res) => {
-            res.send('Creator Trends Backend is running!');
-        });
     } catch (err) {
         console.error('Error starting server:', err); // Handle errors
     }
@@ -58,3 +59,5 @@ startServer().catch((err) => {
     console.error('Error starting server:', err);
     process.exit(1); // Exit with an error code
 });
+
+export default app;

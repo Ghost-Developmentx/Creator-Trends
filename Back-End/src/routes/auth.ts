@@ -4,12 +4,12 @@ import User from "../models/user"; // Import the User model
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as process from "node:process";
-
+import mongoose from "mongoose";
 
 const router = express.Router();
 
 const registerSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({message: 'Invalid email address'}),
     password: z.string().min(6)
 });
 
@@ -18,7 +18,7 @@ router.post("/register", async (req, res) => {
         const {email, password} = registerSchema.parse(req.body)
         const existingUser = await User.findOne({email});
         if (existingUser) {
-            return res.status(400).json({message: "Email already exists"});
+            return res.status(400).json({error: [{code: 'unique', message: 'Email already exists'}]});
         }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,8 +30,12 @@ router.post("/register", async (req, res) => {
     } catch (err) {
         if (err instanceof z.ZodError) {
             res.status(400).json({error: err.errors}); // Return the validation errors
+        } else if (err instanceof mongoose.Error.ValidationError && err.errors['email'].kind === 'unique') {
+            res.status(400).json({error: [{code: 'unique', message: 'Email already exists'}]});
+        } else if (err instanceof Error) {
+            res.status(500).json({error: err.message});
         } else {
-            res.status(500).json({error: 'Server Error'});
+            res.status(500).json({error: 'An unknown error occurred'});
         }
     }
 });
@@ -43,27 +47,26 @@ const loginSchema = z.object({
 // User login route
 router.post('/login', async (req, res) => {
     try {
-        // Validate the request body using the Zod schema
         const {email, password} = loginSchema.parse(req.body);
-        // Find the user by email
         const user = await User.findOne({email});
-        if (!user) {
+        if (!user || !user.password) {
             return res.status(401).json({error: 'Invalid credentials'}); // Unauthorized
         }
-        // Compare the provided password with the stored hashed password
-        const isMatch = bcrypt.compare(password, user.password as string); // Non-null assertion as password is required for login
-        if (!isMatch) {
-            return res.status(401).json({error: 'Invalid credentials'}); // Unauthorized
+        if (user.password) {
+            const isMatch = await bcrypt.compare(password, user.password.toString());
+            if (!isMatch) {
+                return res.status(401).json({error: 'Invalid credentials'});
+            }
+        } else {
+            return res.status(401).json({error: 'User does not have a password'});
         }
-        // Generate a JWT token (replace with your actual secret)
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET!, {expiresIn: '1h'});
         res.json({token});
     } catch (err) {
         if (err instanceof z.ZodError) {
-            // Handle Zod validation errors
             res.status(400).json({error: err.errors}); // Return the validation errors
         } else {
-            // Handle other errors (e.g., database errors)
+            console.error(err)
             res.status(500).json({error: 'Server Error'});
         }
     }
