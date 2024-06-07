@@ -1,9 +1,9 @@
 // tests/auth.test.ts
 import request from 'supertest';
-import app from '../src/server'; // Import your Express app
+import app from '../src/server.js'; // Import your Express app
 // import User from '../src/models/user';
 import mongoose from 'mongoose';
-import User from "../src/models/user";
+import User from "../src/models/user.js";
 
 
 beforeAll(async () => {

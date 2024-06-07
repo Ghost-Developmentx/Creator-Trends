@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     // or a newer version of ECMAScript
-    "module": "ESNext",
+    "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "NodeNext",
     // Enable this flag

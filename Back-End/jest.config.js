@@ -1,9 +1,16 @@
 module.exports = {
-    preset: 'ts-jest',  // Use ts-jest for TypeScript support
-    testEnvironment: 'node', // Use Node.js environment for testing
+    preset: 'ts-jest',
+    testEnvironment: 'node',
     transform: {
-        '^.+\\.(t|j)s?$': 'ts-jest', // Transform TypeScript and JavaScript files
+        '^.+\\.tsx?$': [
+            'ts-jest',
+            {
+                useESM: true,
+            },
+        ],
     },
-    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$', // Define the test file pattern
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'], // File extensions to be recognized as modules
+    moduleNameMapper: {
+        '^(\\.{1,2}/.*)\\.js$': '$1',
+    },
+    extensionsToTreatAsEsm: ['.ts'], // Treat .ts files as ESM
 };
