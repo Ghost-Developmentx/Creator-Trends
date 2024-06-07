@@ -1,0 +1,4 @@
+node_modules/
+.env
+dist/ # Or build/ if that's your compiled output folder
+*.log

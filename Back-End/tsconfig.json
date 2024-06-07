@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es6",  // or a newer version of ECMAScript
+    "module": "commonjs",
+    "esModuleInterop": true, // Enable this flag
+    "outDir": "dist", // Optional, specifies output directory for compiled files
+    "strict": true // Optional, but recommended for better type checking
+  }
+}
