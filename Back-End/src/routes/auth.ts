@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({error: 'Invalid credentials'}); // Unauthorized
         }
         // Compare the provided password with the stored hashed password
-        const isMatch = await bcrypt.compare(password, user.password!); // Non-null assertion as password is required for login
+        const isMatch = bcrypt.compare(password, user.password as string); // Non-null assertion as password is required for login
         if (!isMatch) {
             return res.status(401).json({error: 'Invalid credentials'}); // Unauthorized
         }
