@@ -10,14 +10,16 @@ interface VideoPlayerProps {
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, imageUrl }) => {
   return (
-    <div>
+    <div style={{ position: "relative", paddingBottom: "56.25%" }}>
+      {" "}
+      {/* 16:9 aspect ratio */}
       <ReactPlayer
         url={videoUrl}
         controls={true}
-        light={imageUrl} // Show preview image while loading
-        width="100%" // Make the player responsive
+        light={imageUrl}
+        width="100%"
         height="100%"
-        style={{ aspectRatio: "16/9" }} // Maintain aspect ratio
+        style={{ position: "absolute", top: 0, left: 0 }}
       />
     </div>
   );
