@@ -6,11 +6,12 @@ import ReactPlayer from "react-player";
 interface VideoPlayerProps {
   videoUrl: string;
   imageUrl?: string;
+  playing?: boolean;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, imageUrl }) => {
   return (
-    <div style={{ position: "relative", paddingBottom: "56.25%" }}>
+    <div style={{ position: "relative", paddingBottom: "177.78%" }}>
       {" "}
       {/* 16:9 aspect ratio */}
       <ReactPlayer
