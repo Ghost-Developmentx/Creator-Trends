@@ -116,7 +116,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
     views,
     username,
     datePosted,
-    audioUrl,
+    // audioUrl,
   },
 }) => {
   const [showVideo, setShowVideo] = useState(false);
