@@ -27,7 +27,7 @@ const theme = createTheme({
       main: "#FF5733", // Vibrant orange: Evokes excitement, energy, and creativity
     },
     secondary: {
-      main: "#3498DB", // Calming blue:  Trust, stability, and professionalism
+      main: "#2563ec", // Calming blue:  Trust, stability, and professionalism
     },
     background: {
       default: "transparent", // Light grey background: Clean, modern, and easy on the eyes
@@ -74,7 +74,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "transparent",
-          color: "inherit",
+          color: "#8c8c8c",
           boxShadow: "none",
         },
       },
