@@ -2,6 +2,18 @@
     text-align: center;
 }
 
+.alert-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%; /* Make sure the alerts take up the full width of the form */
+}
+
+.alert-container .MuiAlert-root {
+    width: 100%;
+}
+
 .App-logo {
     height: 40vmin;
     pointer-events: none;
