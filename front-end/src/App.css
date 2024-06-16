@@ -14,6 +14,42 @@
     width: 100%;
 }
 
+.gradient-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+@media (max-width: 600px) {
+    .gradient-background {
+        padding: 1rem;
+    }
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+
+.gradient-background {
+    background: linear-gradient(135deg, #A8EDEA 0%, #F5C6EC 100%);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensure it stays behind all content */
+}
+
+
 .App-logo {
     height: 40vmin;
     pointer-events: none;

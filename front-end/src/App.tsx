@@ -11,8 +11,9 @@ import mockReels from "./mockdata";
 import { Grid } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/login";
-import { Home } from "@mui/icons-material";
 import ForgotPassword from "./components/forgotPassword";
+import { Home } from "@mui/icons-material";
+import Signup from "./components/signUp";
 
 const theme = createTheme({
   palette: {
@@ -74,8 +75,9 @@ const App = () => {
       <CssBaseline />
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/app" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route
             path="/"
