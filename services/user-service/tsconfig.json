@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@models/*": [
+        "./src/models/*"
+      ],
+      "@routes/*": [
+        "./src/routes/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "src/tests/**/*"
+  ],
+  // Ensure tests are included
+  "exclude": [
+    "node_modules"
+  ]
+}
+

@@ -18,7 +18,7 @@ if [ -f "$output_file" ]; then
 fi
 
 # List of directories to look for
-directories=("components" "front-end" "Back-End" "src" "config" "models" "routes" "pages" "app" "api" "styles" "utils" "hooks" "constants" "services" "types")
+directories=("components" "front-end" "Back-End" "src" "config" "models" "routes" "pages" "app" "api" "styles" "utils" "hooks" "constants" "services" "types" "dist")
 
 # List of file types to ignore
 ignore_files=("*.ico" "*.png" "*.jpg" "*.jpeg" "*.gif" "*.svg")

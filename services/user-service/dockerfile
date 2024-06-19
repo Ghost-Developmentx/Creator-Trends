@@ -1,0 +1,63 @@
+# Stage 1: Build Stage
+FROM node:18-alpine AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install PostgreSQL client and nano text editor
+RUN apk add --no-cache postgresql-client nano
+
+# Copy .env files
+COPY .env .env
+COPY .env.local .env.local
+COPY .env.docker .env.docker
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy the rest of your app's source code
+COPY . .
+
+# Run the switch-env.js script to set up environment variables
+RUN node switch-env.js docker
+
+# Build the app
+RUN npm run build
+
+# Stage 2: Production Stage
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install PostgreSQL client and nano text editor
+RUN apk add --no-cache postgresql-client nano
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/config/config.js ./config/config.js
+COPY --from=builder /app/migrations ./migrations
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+# Copy .env files to the production stage
+COPY --from=builder /app/.env .env
+COPY --from=builder /app/.env.local .env.local
+COPY --from=builder /app/.env.docker .env.docker
+
+# Copy verification and environment switching scripts
+COPY --from=builder /app/verifyBuild.js ./verifyBuild.js
+COPY --from=builder /app/switch-env.js ./switch-env.js
+
+# Ensure production dependencies are installed
+RUN npm ci --production
+
+# Run the verifyBuild.js script to check the build integrity
+RUN node verifyBuild.js
+
+# Expose the application port
+EXPOSE 3001
+
+# Set the command to start your app
+CMD ["node", "dist/server.js"]
