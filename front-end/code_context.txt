@@ -1,0 +1,1933 @@
+// File: src/App.css
+.App {
+    text-align: center;
+}
+
+.alert-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%; /* Make sure the alerts take up the full width of the form */
+}
+
+.alert-container .MuiAlert-root {
+    width: 100%;
+}
+
+.gradient-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+@media (max-width: 600px) {
+    .gradient-background {
+        padding: 1rem;
+    }
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+
+.gradient-background {
+    background: linear-gradient(135deg, #A8EDEA 0%, #F5C6EC 100%);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensure it stays behind all content */
+}
+
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes heartBurst {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5); /* Scale up */
+    }
+    100% {
+        transform: scale(1); /* Return to original size */
+    }
+}
+
+// File: src/App.test.tsx
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+// File: src/App.tsx
+// frontend/src/App.tsx
+import * as React from "react";
+import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import ResponsiveDrawer from "./components/responsivedrawer";
+import { IInstagramReel } from "../../Back-End/src/models/instagramReel";
+import VideoCard from "./components/videocard";
+import mockReels from "./mockdata";
+import { Grid } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/login";
+import ForgotPassword from "./components/forgotPassword";
+import { Home } from "@mui/icons-material";
+import Signup from "./components/signUp";
+
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#FF5733", // Vibrant orange: Evokes excitement, energy, and creativity
+    },
+    secondary: {
+      main: "#2563ec", // Calming blue:  Trust, stability, and professionalism
+    },
+    background: {
+      default: "transparent", // Light grey background: Clean, modern, and easy on the eyes
+      paper: "#FFFFFF", // White for content areas: Readability and focus
+    },
+  },
+  typography: {
+    fontFamily: "Poppins, sans-serif",
+    // Roboto: Modern, clean, and legible
+    h6: {
+      fontWeight: 600, // Medium weight: Strong, but not overwhelming
+    },
+    body1: {
+      fontSize: "1rem", // Optimal for readability
+    },
+    body2: {
+      fontSize: "0.875rem", // Smaller size for less important details
+      color: "#555555", // Dark grey: Subtle contrast for secondary text
+    },
+  },
+  shape: {
+    borderRadius: 8, // Slightly rounded corners: Modern aesthetic, feels approachable
+  },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          transition: "box-shadow 0.3s ease", // Smooth transition for hover effect
+          "&:hover": {
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Subtle lift on hover
+          },
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "white",
+          color: "#8c8c8c",
+          boxShadow: "none",
+        },
+      },
+    },
+  },
+});
+
+const App = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/app" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/"
+            element={
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row", // Use "column" if you want to stack them vertically
+                  flexWrap: "wrap", // Wrap the items if there are multiple in a row
+                  justifyContent: "center", // Center horizontally
+                  alignItems: "center", // Center vertically if you have enough height
+                  padding: "20px", // Optional: Add padding around the container
+                  gap: "20px", // Optional: Add space between the items
+                }}
+              >
+                <ResponsiveDrawer>
+                  <Box sx={{ flexGrow: 1, paddingTop: 15 }}>
+                    <Grid container spacing={1}>
+                      <Grid container item spacing={3}>
+                        <Grid container spacing={3}>
+                          {(mockReels as IInstagramReel[]).map((reel) => (
+                            <Grid item xs={12} sm={6} md={4} key={reel.postId}>
+                              <VideoCard video={reel} />
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </ResponsiveDrawer>
+              </Box>
+            }
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+};
+
+export default App;
+
+// File: src/components/forgotPassword.tsx
+import React, { useState } from "react";
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (email === "test@example.com") {
+      setSuccess(
+        "'Password recovery instructions have been sent to your email.'",
+      );
+    } else {
+      setError("Email address not found.");
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #A8EDEA 0%, #F5C6EC 100%)",
+        padding: 3,
+      }}
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          width: 450,
+          minHeight: 350,
+          padding: 4,
+          backgroundColor: "white",
+          borderRadius: 2,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 1,
+          overflow: "auto",
+        }}
+      >
+        <Box
+          display="flex"
+          justifyContent="center"
+          marginBottom={2}
+          width="100%"
+          alignItems="center"
+        >
+          <img
+            src={logo}
+            alt="Creator Trends Logo"
+            style={{ width: "200px" }}
+          />
+        </Box>
+        <Typography variant="h5" marginBottom={2} fontWeight="bold">
+          Reset your password
+        </Typography>
+
+        {error && <Alert severity="error">{error}</Alert>}
+        {success && <Alert severity="success">{success}</Alert>}
+
+        <p>
+          Enter your user account's verified email address and we will send you
+          a password reset link.
+        </p>
+
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!error}
+          variant="outlined"
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{
+            marginTop: 2,
+            padding: 1.5,
+            backgroundColor: "#007bff",
+            "&:hover": {
+              backgroundColor: "#0056b3",
+            },
+          }}
+        >
+          Send password reset email
+        </Button>
+
+        <Typography variant="body2" marginTop={2}>
+          <Link to="/login">Back To Login</Link>
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+export default ForgotPassword;
+
+// File: src/components/login.tsx
+import React, { useEffect, useState } from "react";
+import {
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+  Box,
+  Link as MuiLink,
+  InputAdornment,
+  IconButton,
+  CircularProgress,
+  Stack,
+  Tooltip,
+} from "@mui/material";
+import { Alert } from "@mui/material"; // For error messages
+import { Link, useNavigate } from "react-router-dom"; // For navigation
+import logo from "../assets/logo.png";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Google as GoogleIcon,
+  Facebook as FacebookIcon,
+  ErrorOutline,
+} from "@mui/icons-material";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+  };
+
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  // Password Validation
+  const validatePassword = (value: string) => {
+    const passwordStrengthRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+    if (!passwordStrengthRegex.test(value)) {
+      setPasswordError(
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setEmailError("");
+    setPasswordError("");
+    setError("");
+    setSuccess("");
+    setIsLoading(true);
+
+    validateEmail(email);
+    validatePassword(password);
+
+    if (emailError || passwordError) {
+      setIsLoading(false);
+      return;
+    }
+
+    setTimeout(() => {
+      setIsLoading(false);
+      if (email === "test@example.com" && password === "password123") {
+        setSuccess("Login successful! Redirecting...");
+        if (rememberMe) {
+          localStorage.setItem("user", JSON.stringify({ email, rememberMe }));
+        }
+        setTimeout(() => navigate("/dashboard"), 1000);
+      } else {
+        setError("Invalid email or password");
+        setEmail("");
+        setPassword("");
+      }
+    }, 2000);
+  };
+
+  const handleGoogleLogin = () => {
+    alert("Google Login Clicked");
+  };
+
+  const handleFacebookLogin = () => {
+    alert("Facebook Login Clicked");
+  };
+
+  useEffect(() => {
+    if (email) {
+      validateEmail(email);
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (password) {
+      validatePassword(password);
+    }
+  }, [password]);
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #A8EDEA 0%, #F5C6EC 100%)",
+        padding: 3,
+      }}
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          width: 450,
+          backgroundColor: "white",
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
+          position: "relative",
+          paddingBottom: "60px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          "& .MuiTextField-root": {
+            marginBottom: 2,
+          },
+        }}
+      >
+        <Box display="flex" justifyContent="center" marginBottom={2}>
+          <img
+            src={logo}
+            alt="Creator Trends Logo"
+            style={{ width: "250px" }}
+          />
+        </Box>
+        <Typography variant="h5" align="center" fontWeight="bold" gutterBottom>
+          Welcome Back
+        </Typography>
+
+        {error && <Alert severity="error">{error}</Alert>}
+
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          error={!!emailError}
+          helperText={emailError}
+          variant="outlined"
+          InputProps={{
+            "aria-label": "email",
+            endAdornment: emailError && (
+              <InputAdornment position="end">
+                <Tooltip title={emailError}>
+                  <ErrorOutline color="error" />
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <TextField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          error={!!passwordError}
+          helperText={passwordError}
+          variant="outlined"
+          InputProps={{
+            "aria-label": "password",
+            endAdornment: (
+              <>
+                {passwordError && (
+                  <InputAdornment position="end">
+                    <Tooltip title={passwordError}>
+                      <ErrorOutline color="error" />
+                    </Tooltip>
+                  </InputAdornment>
+                )}
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                    aria-label="toggle password visibility"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              </>
+            ),
+          }}
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+          }
+          label="Remember Me"
+          sx={{ marginTop: 1 }}
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{
+            marginTop: 2,
+            padding: 1.5,
+            backgroundColor: "#007bff",
+            "&:hover": {
+              backgroundColor: "#0056b3",
+            },
+          }}
+          disabled={isLoading}
+          aria-label="sign in"
+        >
+          {isLoading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Sign In"
+          )}
+        </Button>
+
+        <Box mt={2}>
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button
+              variant="outlined"
+              startIcon={<GoogleIcon />}
+              onClick={handleGoogleLogin}
+              sx={{
+                backgroundColor: "#fff",
+                color: "#000",
+                borderColor: "#d3d3d3",
+                "&:hover": {
+                  backgroundColor: "#f5f5f5",
+                },
+              }}
+              aria-label="google login"
+            >
+              Google Login
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FacebookIcon />}
+              onClick={handleFacebookLogin}
+              sx={{
+                backgroundColor: "#fff",
+                color: "#1877F2",
+                borderColor: "#1877F2",
+                "&:hover": {
+                  backgroundColor: "#f5f5f5",
+                  borderColor: "#1877F2",
+                },
+              }}
+              aria-label="facebook login"
+            >
+              Facebook Login
+            </Button>
+          </Stack>
+        </Box>
+
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          marginTop={2}
+        >
+          <MuiLink
+            component={Link}
+            color="#000"
+            to="/forgot-password"
+            fontSize="12px"
+            sx={{ marginBottom: 1.5 }}
+            aria-label="forgot password"
+          >
+            Forgot Your Password?
+          </MuiLink>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: "#dbebfa", // Light gray background color
+            width: "100%",
+            borderRadius: "0 0 8px 8px",
+            position: "absolute",
+            bottom: 0,
+            padding: "15px 0",
+            textAlign: "center",
+            left: "0px",
+          }}
+        >
+          <Typography variant="body2">
+            Don’t have an account?{" "}
+            <MuiLink
+              component={Link}
+              to="/signup"
+              sx={{ color: "#007bff" }}
+              aria-label="create account"
+            >
+              Create one
+            </MuiLink>
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Login;
+
+// File: src/components/navbar.tsx
+// frontend/src/components/navbar.tsx
+import * as React from "react";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import InputBase from "@mui/material/InputBase";
+import Badge from "@mui/material/Badge";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import MailIcon from "@mui/icons-material/Mail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import { Avatar, useTheme, useMediaQuery } from "@mui/material";
+import logo from "../assets/ghost.png";
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(3),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
+
+export default function PrimarySearchAppBar() {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <Avatar src={logo} />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          {isMobile && (
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            ></IconButton>
+          )}
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search Trending Videos"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <Avatar src={logo} />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Box>
+  );
+}
+
+// File: src/components/responsivedrawer.tsx
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import HomeIcon from "@mui/icons-material/Home";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import SettingsIcon from "@mui/icons-material/Settings";
+import logo from "../assets/logo.png";
+import Navbar from "./navbar";
+import { Button } from "@mui/material";
+
+const drawerWidth = 240;
+
+interface Props {
+  window?: () => Window;
+  children: React.ReactNode;
+}
+
+const ResponsiveDrawer: React.FC<Props> = (props) => {
+  const { window, children } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          p: 1,
+        }}
+      >
+        <img
+          src={logo}
+          alt="Creator Trends Logo"
+          style={{ width: "100%", height: "auto", marginBottom: "8px" }}
+        />
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ width: "100%", height: "45px" }}
+        >
+          Discover Trends
+        </Button>
+      </Box>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <TrendingUpIcon />
+            </ListItemIcon>
+            <ListItemText primary="Trending" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "white !important",
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Navbar />
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};
+
+export default ResponsiveDrawer;
+
+// File: src/components/signUp.tsx
+import React, { useEffect, useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  Link as MuiLink,
+  Alert,
+  Divider,
+} from "@mui/material";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+import loginImage from "../assets/login-image.jpg";
+import zxcvbn from "zxcvbn";
+
+const Signup = () => {
+  const [fullName, setFullName] = useState("");
+  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptUpdates, setAcceptUpdates] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [username, setUsername] = useState("");
+  const [showPasswordStrength, setShowPasswordStrength] = useState(false);
+  const [showUsernameHelper, setShowUsernameHelper] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
+
+  const isEmail = (input: string) => /\S+@\S+\.\S+/.test(input);
+  const isPhone = (input: string) => /^\d{10}$/.test(input);
+
+  const customPasswordFeedback = {
+    0: "Password is too weak. Consider using more characters, numbers, and special symbols.",
+    1: "Password is still weak. Try adding more complexity.",
+    2: "Password is okay but could be stronger. Use a mix of letters, numbers, and special symbols.",
+    3: "Password is fairly strong. Consider adding even more complexity for better security.",
+    4: "Password is strong and secure 🎉",
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (!isEmail(emailOrPhone) && !isPhone(emailOrPhone)) {
+      setError("Please enter a valid email or phone number");
+      return;
+    }
+
+    setSuccess("Signup Successful!");
+  };
+
+  const handleSocialSignUp = (provider: string) => {
+    console.log("Sign up with provider");
+  };
+
+  const [passwordStrength, setPasswordStrength] = useState({
+    score: 0,
+    feedback: "",
+  });
+
+  const handlePasswordChange = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    if (value) {
+      setShowPasswordStrength(true); // Show the strength meter
+      const strength = zxcvbn(value);
+      setPasswordStrength({
+        score: strength.score,
+        feedback: customPasswordFeedback[strength.score],
+      });
+    } else {
+      setShowPasswordStrength(false); // Hide the strength meter if password is empty
+    }
+  };
+
+  const handleUsernameChange = async (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    setUsername(value);
+    setShowUsernameHelper(true);
+
+    if (value) {
+      try {
+        const response = await fetch(`/api/check-username?username=${value}`);
+        const data = await response.json();
+        setUsernameAvailable(data.available);
+      } catch (error) {
+        console.error("Error checking username availability", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const height = window.innerHeight;
+      document.documentElement.style.setProperty("--vh", `${height / 100}px`);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <Box
+      className="gradient-background"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 3,
+        overflow: "auto",
+      }}
+    >
+      <Grid
+        container
+        sx={{
+          maxWidth: 1200,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+          borderRadius: 2,
+          overflow: "hidden",
+          flexGrow: 1,
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            backgroundColor: "white",
+            padding: 3,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            overflowY: "auto",
+            maxHeight: "90vh",
+          }}
+        >
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 1,
+              width: "100%",
+              maxWidth: 600,
+              maxHeight: "85vh",
+              padding: { xs: 0, md: 4 },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: 2,
+                width: "100%",
+              }}
+            >
+              <img
+                src={logo}
+                alt="Creator Trends Logo"
+                style={{ width: "300px" }}
+              />
+            </Box>
+
+            <Typography
+              variant="body1"
+              marginBottom={1}
+              sx={{
+                paddingLeft: { xs: 2, sm: 2, md: 4 },
+                paddingRight: { xs: 2, sm: 2, md: 4 },
+                textAlign: "center",
+                fontWeight: "bold",
+                color: "grey",
+                fontSize: "15px",
+                marginTop: -4,
+                marginBottom: 0,
+              }}
+            >
+              Sign up to discover trending videos from your favourite creators.
+            </Typography>
+
+            {error && (
+              <Alert severity="error" sx={{ width: "100%" }}>
+                {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert severity="success" sx={{ width: "100%" }}>
+                {success}
+              </Alert>
+            )}
+
+            <Box
+              sx={{
+                marginY: 2,
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box sx={{ width: "80%" }}>
+                <Button
+                  startIcon={<FacebookIcon />}
+                  variant="contained"
+                  fullWidth
+                  onClick={() => handleSocialSignUp("Facebook")}
+                  sx={{
+                    backgroundColor: "#4267B2",
+                    "&:hover": { backgroundColor: "#365899" },
+                    marginBottom: 1,
+                    width: "100%",
+                  }}
+                >
+                  Sign Up with Facebook
+                </Button>
+                <Button
+                  startIcon={<GoogleIcon />}
+                  variant="contained"
+                  fullWidth
+                  onClick={() => handleSocialSignUp("Google")}
+                  sx={{
+                    backgroundColor: "#DB4437",
+                    "&:hover": { backgroundColor: "#C53929" },
+                    width: "100%",
+                  }}
+                >
+                  Sign Up with Google
+                </Button>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                marginY: 2,
+              }}
+            >
+              <Divider sx={{ flexGrow: 1, marginRight: 1 }} />
+              <Typography variant="body2" color="textSecondary">
+                OR
+              </Typography>
+              <Divider sx={{ flexGrow: 1, marginLeft: 1 }} />
+            </Box>
+
+            <TextField
+              label="Full Name"
+              type="text"
+              fullWidth
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+              sx={{ width: "80%" }}
+            />
+
+            <TextField
+              label="Email or Mobile Number"
+              type="text"
+              fullWidth
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              required
+              sx={{ width: "80%" }}
+            />
+
+            <TextField
+              label="Username"
+              type="text"
+              fullWidth
+              value={username}
+              onChange={handleUsernameChange}
+              required
+              helperText={
+                showUsernameHelper
+                  ? usernameAvailable
+                    ? "Username is available"
+                    : "Username is taken"
+                  : ""
+              }
+              error={showUsernameHelper && !usernameAvailable}
+              sx={{ width: "80%" }}
+            />
+
+            <TextField
+              label="Password"
+              type="password"
+              fullWidth
+              value={password}
+              onChange={handlePasswordChange}
+              required
+              sx={{ width: "80%" }}
+            />
+            {showPasswordStrength && (
+              <Box
+                sx={{
+                  width: "80%",
+                  height: 10,
+                  background: "#E0E0E0",
+                  borderRadius: 5,
+                  overflow: "hidden",
+                  marginTop: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: `${(passwordStrength.score + 1) * 20}%`,
+                    height: "100%",
+                    backgroundColor:
+                      passwordStrength.score === 0
+                        ? "red"
+                        : passwordStrength.score === 1
+                          ? "orange"
+                          : passwordStrength.score === 2
+                            ? "yellow"
+                            : passwordStrength.score === 3
+                              ? "lightgreen"
+                              : "green",
+                    transition: "width 0.3s ease-in-out",
+                  }}
+                />
+              </Box>
+            )}
+            {showPasswordStrength && (
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                fontWeight="bold"
+                sx={{ marginTop: 0, width: "80%" }}
+              >
+                {passwordStrength.feedback}
+              </Typography>
+            )}
+
+            <TextField
+              label="Confirm Password"
+              type="password"
+              fullWidth
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              sx={{ width: "80%" }}
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={acceptUpdates}
+                  onChange={(e) => setAcceptUpdates(e.target.checked)}
+                />
+              }
+              label="I want to receive updates about Creator Trends"
+              sx={{ width: "80%" }}
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                marginTop: 2,
+                padding: 1.5,
+                backgroundColor: "#007bff",
+                "&:hover": {
+                  backgroundColor: "#0056b3",
+                },
+                width: "80%",
+              }}
+            >
+              Sign up
+            </Button>
+
+            <Typography
+              variant="body2"
+              marginTop={2}
+              sx={{
+                paddingBottom: 4,
+              }}
+            >
+              Already have an account?{" "}
+              <MuiLink
+                component={Link}
+                to="/login"
+                sx={{ textDecoration: "none", color: "#007bff" }}
+              >
+                Log In
+              </MuiLink>
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            display: { xs: "none", md: "block" },
+            backgroundImage: `url(${loginImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Grid>
+    </Box>
+  );
+};
+
+export default Signup;
+
+// File: src/components/videocard.tsx
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  Typography,
+  IconButton,
+  CardActions,
+  CardMedia,
+  Divider,
+  Box,
+  Grow,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import AddCommentIcon from "@mui/icons-material/AddComment";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import VideoPlayer from "./videoplayer";
+import { IInstagramReel } from "../../../Back-End/src/models/instagramReel";
+
+interface VideoCardProps {
+  video: IInstagramReel;
+}
+
+const CardHeaderComponent: React.FC<{ username: string; datePosted: Date }> = ({
+  username,
+  datePosted,
+}) => {
+  // Helper function to format the date with the ordinal suffix (st, nd, rd, th)
+  const formatDateWithOrdinal = (date: Date) => {
+    const dayOfMonth = date.getDate();
+    const suffixes = ["th", "st", "nd", "rd"];
+    const relevantDigits = dayOfMonth < 30 ? dayOfMonth % 20 : dayOfMonth % 30;
+    const suffix = relevantDigits <= 3 ? suffixes[relevantDigits] : suffixes[0];
+    return (
+      date.toLocaleDateString("en-US", { month: "long", day: "numeric" }) +
+      suffix
+    );
+  };
+
+  return (
+    <CardHeader
+      avatar={
+        <Avatar aria-label="user" sx={{ backgroundColor: "secondary.main" }}>
+          {username.charAt(0).toUpperCase()}
+        </Avatar>
+      }
+      action={
+        <IconButton aria-label="settings">
+          <MoreVertIcon />
+        </IconButton>
+      }
+      title={
+        <Typography variant="body1" fontWeight="medium" component="div">
+          {username}
+        </Typography>
+      }
+      subheader={
+        <Typography variant="body2" color="text.secondary">
+          {formatDateWithOrdinal(datePosted)}
+        </Typography>
+      }
+    />
+  );
+};
+
+const CardContentComponent: React.FC<{ caption: string }> = ({ caption }) => (
+  <CardContent>
+    <Typography variant="body2" color="text.secondary">
+      {caption}
+    </Typography>
+  </CardContent>
+);
+
+const CardActionsComponent: React.FC<{
+  likes: number;
+  comments: number;
+}> = () => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [animate, setAnimate] = useState(false); // New state for animation
+
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+    setAnimate(true); // Trigger animation when clicked
+
+    // Reset the animation state after a short delay
+    setTimeout(() => setAnimate(false), 800); // Adjust duration as needed
+  };
+
+  return (
+    <CardActions disableSpacing>
+      <IconButton aria-label="add to favorites" onClick={handleLikeClick}>
+        <FavoriteIcon
+          sx={{
+            color: isLiked ? "red" : "inherit",
+            animation: animate ? "heartBurst 0.8s ease-out" : "none", // Apply animation if animate is true
+          }}
+        />
+        <Typography variant="body2" sx={{ ml: 0.5 }}></Typography>
+      </IconButton>
+      <IconButton aria-label="comment">
+        <AddCommentIcon />
+        <Typography variant="body2" sx={{ ml: 0.5 }}></Typography>
+      </IconButton>
+    </CardActions>
+  );
+};
+
+const VideoCard: React.FC<VideoCardProps> = ({
+  video: {
+    videoUrl,
+    imageUrl,
+    caption,
+    likes,
+    comments,
+    views,
+    username,
+    datePosted,
+    // audioUrl,
+  },
+}) => {
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handleClick = () => {
+    setShowVideo(true);
+  };
+
+  return (
+    <Grow in={true}>
+      <Card
+        sx={{
+          maxWidth: 400,
+          m: 2,
+          borderRadius: 2,
+          boxShadow: 3,
+          "&:hover": {
+            boxShadow: 8,
+            transform: "translateY(-2px)",
+          },
+          transition: "box-shadow 0.3s ease, transform 0.3s ease",
+        }}
+      >
+        <>
+          <CardHeaderComponent username={username} datePosted={datePosted} />
+          {showVideo ? (
+            <div style={{ padding: "8px" }}>
+              <VideoPlayer videoUrl={videoUrl} playing={true} />
+            </div>
+          ) : (
+            <CardMedia
+              component="img"
+              image={imageUrl}
+              alt="Video Preview"
+              onClick={handleClick}
+              sx={{
+                cursor: "pointer",
+                aspectRatio: "1/1",
+                transition: "transform 0.3s ease", // Add transition for image
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+            />
+          )}
+          <CardContentComponent caption={caption} />
+          <CardActionsComponent likes={likes} comments={comments} />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            width="100%"
+            sx={{
+              borderRadius: "0 0 2px 2px",
+              overflow: "hidden",
+            }}
+          >
+            <Box
+              flexGrow={1}
+              component="div"
+              sx={{ backgroundColor: "#E0F2F1" }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="center"
+                p={1}
+                sx={{
+                  width: "100%",
+                  backgroundColor: "#E0F2F1",
+                  py: 1,
+                  borderBottomLeftRadius: 2,
+                  borderBottomRightRadius: 2,
+                }}
+              >
+                {views} views
+              </Typography>
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              flexGrow={1}
+              component="div"
+              sx={{ backgroundColor: "#E0F2F1" }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="center"
+                p={1}
+              >
+                {likes} likes
+              </Typography>
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box
+              flexGrow={1}
+              component="div"
+              sx={{ backgroundColor: "#E0F2F1" }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="center"
+                p={1}
+              >
+                {comments} comments
+              </Typography>
+            </Box>
+          </Box>
+        </>
+      </Card>
+    </Grow>
+  );
+};
+
+export default VideoCard;
+
+// File: src/components/videoplayer.tsx
+// frontend/src/components/VideoPlayer.tsx
+
+import React from "react";
+import ReactPlayer from "react-player";
+
+interface VideoPlayerProps {
+  videoUrl: string;
+  imageUrl?: string;
+  playing?: boolean;
+}
+
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, imageUrl }) => {
+  return (
+    <div style={{ position: "relative", paddingBottom: "177.78%" }}>
+      {" "}
+      {/* 16:9 aspect ratio */}
+      <ReactPlayer
+        url={videoUrl}
+        controls={true}
+        light={imageUrl}
+        width="100%"
+        height="100%"
+        style={{ position: "absolute", top: 0, left: 0 }}
+      />
+    </div>
+  );
+};
+
+export default VideoPlayer;
+
+// File: src/index.css
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+// File: src/index.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+// File: src/mockdata.ts
+// frontend/src/mockData.ts
+
+interface MockInstagramReel {
+  platform: string;
+  postId: string;
+  videoUrl: string;
+  imageUrl: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  views: number;
+  username: string;
+  datePosted: Date;
+  audioUrl?: string;
+}
+
+const mockReels: MockInstagramReel[] = [
+  {
+    platform: "Instagram",
+    postId: "1234567890",
+    videoUrl: "https://example.com/video1.mp4", // Placeholder URL
+    imageUrl: "https://via.placeholder.com/300", // Placeholder image
+    caption: "This is a sample Instagram Reel caption.",
+    likes: 1234,
+    comments: 56,
+    views: 15000,
+    username: "johndoe",
+    datePosted: new Date(),
+    audioUrl: "https://example.com/audio1.mp3", // Placeholder URL
+  },
+  {
+    platform: "Instagram",
+    postId: "9876543210",
+    videoUrl: "https://example.com/video2.mp4", // Placeholder URL
+    imageUrl: "https://via.placeholder.com/300", // Placeholder image
+    caption: "Another amazing Instagram Reel!",
+    likes: 5678,
+    comments: 23,
+    views: 20000,
+    username: "janesmith",
+    datePosted: new Date(),
+    audioUrl: "https://example.com/audio2.mp3", // Placeholder URL
+  },
+  {
+    platform: "Instagram",
+    postId: "9876543210",
+    videoUrl: "https://example.com/video2.mp4", // Placeholder URL
+    imageUrl: "https://via.placeholder.com/300", // Placeholder image
+    caption: "Another amazing Instagram Reel!",
+    likes: 5678,
+    comments: 23,
+    views: 20000,
+    username: "janesmith",
+    datePosted: new Date(),
+    audioUrl: "https://example.com/audio2.mp3", // Placeholder URL
+  },
+  {
+    platform: "Instagram",
+    postId: "9876543210",
+    videoUrl: "https://example.com/video2.mp4", // Placeholder URL
+    imageUrl: "https://via.placeholder.com/300", // Placeholder image
+    caption: "Another amazing Instagram Reel!",
+    likes: 5678,
+    comments: 23,
+    views: 20000,
+    username: "janesmith",
+    datePosted: new Date(),
+    audioUrl: "https://example.com/audio2.mp3", // Placeholder URL
+  },
+  // ... add more mock reels as needed ...
+];
+
+export default mockReels;
+
+// File: src/react-app-env.d.ts
+/// <reference types="react-scripts" />
+
+// File: src/reportWebVitals.ts
+import { ReportHandler } from 'web-vitals';
+
+const reportWebVitals = (onPerfEntry?: ReportHandler) => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+
+// File: src/setupTests.ts
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+

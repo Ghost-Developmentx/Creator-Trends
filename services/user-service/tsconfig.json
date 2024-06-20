@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2021",
     "module": "commonjs",
     "strict": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -11,22 +12,48 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": ".",
-    "resolveJsonModule": true,
+    "lib": [
+      "ES2021"
+    ],
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
       "@models/*": [
         "./src/models/*"
       ],
       "@routes/*": [
         "./src/routes/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@controllers/*": [
+        "./src/controllers/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
-    }
+    },
+    "types": [
+      "node",
+      "jest"
+    ]
   },
   "include": [
     "src/**/*",
-    "src/tests/**/*"
+    "/tests/**/*",
+    "global.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
+  ],
+  "compileOnSave": false,
+  "typeRoots": [
+    "./node_modules/@types"
   ]
 }
-

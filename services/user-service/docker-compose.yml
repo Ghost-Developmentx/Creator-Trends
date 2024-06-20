@@ -2,15 +2,15 @@ services:
   db:
     image: postgres:14
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 8911023
+      POSTGRES_DB: creator_trends_user_service_docker
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - user-service-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d creator_trends_user_service_docker" ]
       interval: 10s
       retries: 5
       start_period: 30s
@@ -19,6 +19,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+      target: production
     ports:
       - "3001:3001"
     env_file:
@@ -35,6 +36,21 @@ services:
         condition: service_healthy
     networks:
       - user-service-network
+
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: test
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgres://postgres:8911023@db:5432/creator_trends_user_service_docker
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - user-service-network
+    command: [ "npm", "run", "test:clean" ]
 
 networks:
   user-service-network:

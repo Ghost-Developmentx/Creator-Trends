@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "G:\\Ghost-Projects\\Creator-Trends\\services\\user-service\\logs\\.7be057fbe88cca0347e1421a127094dd0210060b-audit.json",
+    "files": [
+        {
+            "date": 1718868025947,
+            "name": "G:\\Ghost-Projects\\Creator-Trends\\services\\user-service\\logs\\combined-2024-06-20.log",
+            "hash": "3ad1d554e26a5af0869a374301bab6ec3548716b31881d47a4e8397048ef7bfd"
+        }
+    ],
+    "hashType": "sha256"
+}

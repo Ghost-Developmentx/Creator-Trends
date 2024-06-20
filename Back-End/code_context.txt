@@ -1,0 +1,353 @@
+// File: src/config/db.ts
+import mongoose from 'mongoose'
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+async function connectDB() {
+    try {
+        const uri = process.env.NODE_ENV === 'test'
+            ? 'mongodb://127.0.0.1:27017/creator-trends-test' // Test database
+            : 'mongodb://127.0.0.1:27017/creator-trends'; // Development/production database
+
+        const connection = await mongoose.connect(uri)
+        console.log(`Connected to database: ${connection.connection.host}`)
+    } catch (error) {
+        console.error(`MongoDB connection error: ${error}`)
+        process.exit(1);
+    }
+}
+
+export default connectDB
+// File: src/models/instagramReel.ts
+// src/models/instagramReel.ts
+import mongoose, { Schema, Document } from "mongoose";
+
+export interface IInstagramReel extends Document {
+  platform: string;
+  postId: string;
+  videoUrl: string;
+  imageUrl?: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  views: number;
+  username: string;
+  datePosted: Date;
+  audioUrl?: string; // Optional, as not all Reels have music
+}
+
+const InstagramReelSchema = new Schema<IInstagramReel>({
+  platform: { type: String, required: true, default: "Instagram" }, // Always 'Instagram'
+  postId: { type: String, required: true },
+  videoUrl: { type: String, required: true },
+  imageUrl: { type: String, required: true },
+  caption: { type: String, default: "" },
+  likes: { type: Number, required: true },
+  comments: { type: Number, required: true },
+  views: { type: Number, required: true },
+  username: { type: String, required: true },
+  datePosted: { type: Date, required: true },
+  audioUrl: { type: String },
+});
+
+const InstagramReel = mongoose.model<IInstagramReel>(
+  "InstagramReel",
+  InstagramReelSchema,
+);
+
+export default InstagramReel;
+
+// File: src/models/user.ts
+import mongoose, {Schema, Document} from 'mongoose';
+import bcrypt from 'bcrypt'
+
+interface UserDocument extends Document {
+    email: string;
+    password?: string | Buffer;
+    googleId?: string;
+    facebookId?: string;
+}
+
+const userSchema: Schema = new Schema({
+    email: {type: String, unique: true, required: true},
+    password: {type: String},
+    googleId: {type: String},
+    facebookId: {type: String}
+});
+
+// Middleware to hash password before saving
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = bcrypt.hash(this.password as string, salt);
+    next();
+})
+
+const User = mongoose.model<UserDocument>('User', userSchema);
+
+export default User;
+// File: src/routes/api/instagram.ts
+// src/routes/instagram.ts
+import express from "express";
+import axios from "axios";
+import dotenv from "dotenv";
+import InstagramReel from "../../models/instagramReel";
+
+dotenv.config();
+
+const router = express.Router();
+
+const userCategories: { [category: string]: string[] } = {
+  lifestyle: ["2011375769", "31027484"],
+  beauty_and_fashion: ["14081467", "19106973"],
+  health_and_fitness: ["42228698", "16009623"],
+  food_and_drink: ["1937960", "3360029"],
+  technology: ["30588147", "245466861"],
+  education: ["497784956", "353049659"],
+  entertainment: ["8010139560", "18258800993"],
+  travel: ["510990121", "274570222"],
+  finance_and_business: ["5384665", "2685325124"],
+  diy: ["27897568", "406390572"],
+  gaming: ["896278327", "1375950361"],
+  personal_development_and_motivation: ["211891528", "653993028"],
+  comedy: ["8443283", "26656699599"],
+  pets_and_animals: ["13690821", "2053300282"],
+  onlyfans: ["3951534", "2708048228"],
+};
+
+//Get trending Instagram Reels
+// Get trending Instagram Reels for all categories
+router.get("/trends/all", async (_req, res) => {
+  try {
+    const allUserIds = Object.values(userCategories).flat(); // Get all user IDs
+
+    const options = {
+      method: "GET",
+      url: "https://instagram-looter2.p.rapidapi.com/reels",
+      params: {
+        id: allUserIds.join(","), // Combine user IDs into a comma-separated string
+        count: (2 * allUserIds.length).toString(), // Adjust the count based on the number of user IDs
+      },
+      headers: {
+        "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "instagram-looter2.p.rapidapi.com",
+      },
+    };
+
+    const response = await axios.request(options);
+
+    const trendingVideosData = response.data.items
+      .filter((item: any) => item.media?.video_versions)
+      .map(async (item: any) => {
+        const media = item.media;
+        const category =
+          Object.keys(userCategories).find((key) =>
+            userCategories[key].includes(media.user.pk),
+          ) || "other"; // Find the category or use 'other' if not found
+
+        return {
+          category,
+          platform: "Instagram",
+          postId: media.pk,
+          videoUrl: media.video_versions[0].url,
+          caption: media.caption?.text || "",
+          likes: media.like_count,
+          comments: media.comment_count,
+          views: media.view_count,
+          username: media.user.username,
+          datePosted: new Date(media.taken_at * 1000),
+          audioUrl:
+            media.music_metadata?.music_info?.music_asset_info
+              ?.progressive_download_url || "",
+        };
+      });
+    // Save to the database (before filtering) and get the saved documents
+    const savedReels = await InstagramReel.insertMany(trendingVideosData);
+
+    //Filter based on views AFTER saving to DB
+    const trendingVideos = savedReels.filter((reel) => reel.views >= 10000); // Filter by views
+
+    res.json(trendingVideos);
+  } catch (error) {
+    // ... (your error handling logic)
+  }
+});
+
+export default router;
+
+// File: src/routes/api/tiktok.ts
+
+// File: src/routes/api/youtube.ts
+
+// File: src/routes/auth.ts
+import express from 'express';
+import {z} from "zod";  // Import Zod for validation
+import User from "../models/user"; // Import the User model
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import * as process from "node:process";
+import mongoose from "mongoose";
+
+const router = express.Router();
+
+const registerSchema = z.object({
+    email: z.string().email({message: 'Invalid email address'}),
+    password: z.string().min(6)
+});
+
+router.post("/register", async (req, res) => {
+    try {
+        const {email, password} = registerSchema.parse(req.body)
+        const existingUser = await User.findOne({email});
+        if (existingUser) {
+            return res.status(400).json({error: [{code: 'unique', message: 'Email already exists'}]});
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = new User({email, password: hashedPassword});
+        await newUser.save();
+
+        const token = jwt.sign({userId: newUser._id}, process.env.JWT_SECRET!, {expiresIn: 60 * 60});
+        res.status(201).json({token});
+    } catch (err) {
+        if (err instanceof z.ZodError) {
+            res.status(400).json({error: err.errors}); // Return the validation errors
+        } else if (err instanceof mongoose.Error.ValidationError && err.errors['email'].kind === 'unique') {
+            res.status(400).json({error: [{code: 'unique', message: 'Email already exists'}]});
+        } else if (err instanceof Error) {
+            res.status(500).json({error: err.message});
+        } else {
+            res.status(500).json({error: 'An unknown error occurred'});
+        }
+    }
+});
+const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+});
+
+// User login route
+router.post('/login', async (req, res) => {
+    try {
+        const {email, password} = loginSchema.parse(req.body);
+        const user = await User.findOne({email});
+        if (!user || !user.password) {
+            return res.status(401).json({error: 'Invalid credentials'}); // Unauthorized
+        }
+        if (user.password) {
+            const isMatch = await bcrypt.compare(password, user.password.toString());
+            if (!isMatch) {
+                return res.status(401).json({error: 'Invalid credentials'});
+            }
+        } else {
+            return res.status(401).json({error: 'User does not have a password'});
+        }
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET!, {expiresIn: '1h'});
+        res.json({token});
+    } catch (err) {
+        if (err instanceof z.ZodError) {
+            res.status(400).json({error: err.errors}); // Return the validation errors
+        } else {
+            console.error(err)
+            res.status(500).json({error: 'Server Error'});
+        }
+    }
+});
+
+export default router;
+
+// File: src/server.ts
+import dotenv from "dotenv";
+
+dotenv.config();
+console.log("API Key:", process.env.RAPIDAPI_KEY);
+// server.ts
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import connectDB from "./config/db";
+import authRoutes from "./routes/auth";
+import instagramRoutes from "./routes/api/instagram";
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Connect to the database
+async function connectToDatabase() {
+  try {
+    await connectDB();
+    console.log("Database connected successfully");
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    process.exit(1);
+  }
+}
+
+async function startServer() {
+  // General Middleware
+  app.use(express.json());
+
+  // Security Middleware
+  app.use(helmet());
+  app.use(
+    cors({
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    }),
+  );
+
+  // Rate Limiting Middleware
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+  app.use(limiter);
+
+  // Request Logging Middleware
+  app.use((req, _res, next) => {
+    console.log(`Request: ${req.method} ${req.url}`);
+    next();
+  });
+
+  // Routes
+  app.get("/", (_req, res) => {
+    res.json({ message: "Creator Trends Backend is running!" });
+  });
+
+  app.use("/api/auth", authRoutes);
+  app.use("/api/instagram", instagramRoutes);
+
+  // Error Handling Middleware
+  app.use(
+    (
+      err: Error,
+      _req: express.Request,
+      res: express.Response,
+      _next: express.NextFunction,
+    ) => {
+      console.error(err.stack); // Log the error for debugging
+      res.status(500).json({ error: "Internal Server Error" });
+    },
+  );
+
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+}
+
+connectToDatabase()
+  .then(() => startServer())
+  .catch((err) => {
+    // Handle errors during server startup
+    console.error("Error starting server:", err);
+    process.exit(1); // Exit the process on failure
+  });
+
+export default app;
+

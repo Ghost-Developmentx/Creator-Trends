@@ -11,6 +11,7 @@ RUN apk add --no-cache postgresql-client nano git
 COPY .env .env
 COPY .env.local .env.local
 COPY .env.docker .env.docker
+COPY .env.test .env.test
 
 # Copy package files and install dependencies
 COPY package.json package-lock.json ./
@@ -48,11 +49,20 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/.env .env
 COPY --from=builder /app/.env.local .env.local
 COPY --from=builder /app/.env.docker .env.docker
+COPY --from=builder /app/.env.test .env.test
+
+# Copy server.ts file
+COPY --from=builder /app/src/server.ts ./src/server.ts
 
 # Copy Jest config file and test setup
-COPY --from=builder /app/jest.config.js ./jest.config.js
-COPY --from=builder /app/jest.setup.js ./jest.setup.js
+COPY --from=builder /app/jest.config.ts ./jest.config.ts
+COPY --from=builder /app/jest.setup.ts ./jest.setup.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
+COPY --from=builder /app/global.d.ts ./global.d.ts
+COPY --from=builder /app/jest.global-setup.ts ./jest.global-setup.ts
+COPY --from=builder /app/jest.global-teardown.ts ./jest.global-teardown.ts
+COPY --from=builder /app/src/config/swagger.ts ./src/config/swagger.ts
+COPY --from=builder /app/docs/swagger.yaml ./src/docs/swagger.yaml
 
 # Copy db.ts and other necessary config files
 COPY --from=builder /app/src/config/db.ts ./src/config/db.ts
@@ -60,6 +70,19 @@ COPY --from=builder /app/src/routes/auth.ts ./src/routes/auth.ts
 COPY --from=builder /app/src/config/logger.ts ./src/config/logger.ts
 COPY --from=builder /app/src/models/user.ts ./src/models/user.ts
 COPY --from=builder /app/src/types/user.ts ./src/types/user.ts
+
+# Copy additional files and directories
+COPY --from=builder /app/src/controllers/authController.ts ./src/controllers/authController.ts
+COPY --from=builder /app/src/controllers/profileController.ts ./src/controllers/profileController.ts
+COPY --from=builder /app/src/routes/profile.ts ./src/routes/profile.ts
+COPY --from=builder /app/src/services/authService.ts ./src/services/authService.ts
+COPY --from=builder /app/src/services/profileService.ts ./src/services/profileService.ts
+
+# Copy new files created during refactoring
+COPY --from=builder /app/src/constants/http-status-codes.ts ./src/constants/http-status-codes.ts
+COPY --from=builder /app/src/validators/authValidators.ts ./src/validators/authValidators.ts
+COPY --from=builder /app/src/validators/profileValidators.ts ./src/validators/profileValidators.ts
+COPY --from=builder /app/src/utils/errorHandlers.ts ./src/utils/errorHandlers.ts
 
 # Copy tests directory
 COPY --from=builder /app/src/tests ./src/tests
@@ -87,4 +110,4 @@ FROM production AS test
 RUN npm install --save-dev jest ts-jest @types/jest supertest
 
 # Run tests
-CMD ["npm", "test"]
+CMD ["npm", "run", "test:clean"]

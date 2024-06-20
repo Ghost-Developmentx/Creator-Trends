@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "G:\\Ghost-Projects\\Creator-Trends\\services\\user-service\\logs\\.50fdbf64cc1c004e3a9d8cd272fc4fac284c9ae4-audit.json",
+    "files": [
+        {
+            "date": 1718628546171,
+            "name": "G:\\Ghost-Projects\\Creator-Trends\\services\\user-service\\logs\\combined-2024-06-17.log",
+            "hash": "d39d572e716ed9d465c291b903aab5b63100ab7e0bfd51c8c46e5419e2220efd"
+        },
+        {
+            "date": 1718833337532,
+            "name": "G:\\Ghost-Projects\\Creator-Trends\\services\\user-service\\logs\\combined-2024-06-19.log",
+            "hash": "a6df26044c32cc986590619a260f722918e82ac6a32c23c8822af8d41f265ab1"
+        }
+    ],
+    "hashType": "sha256"
+}
