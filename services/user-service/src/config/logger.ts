@@ -1,44 +1,67 @@
-// services/user-service/src/config/logger.ts
-
 import { createLogger, format, transports } from "winston";
 import path from "path";
 import DailyRotateFile from "winston-daily-rotate-file";
+import fs from "fs";
 
-// Logger configuration
+// ----- Configuration -----
+
+const LOG_DIR = process.env.LOG_DIR || path.join(__dirname, "../../logs");
+const LOG_LEVEL = process.env.LOG_LEVEL || "info";
+const SERVICE_NAME = process.env.SERVICE_NAME || "user-service";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
+// ----- Logger Configuration -----
+
 const logger = createLogger({
-  level: "info", // Default log level
+  level: LOG_LEVEL,
   format: format.combine(
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), // Timestamp format
-    format.errors({ stack: true }), // Include stack trace for errors
-    format.splat(), // Enables string interpolation
-    format.json(), // Log as JSON
+    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+    format.errors({ stack: true }),
+    format.splat(),
+    format.json(),
   ),
-  defaultMeta: { service: "user-service" }, // Metadata for logs
+  defaultMeta: { service: SERVICE_NAME },
   transports: [
     new DailyRotateFile({
-      filename: path.join(__dirname, "../../logs/error-%DATE%.log"), // Error logs with date rotation
-      datePattern: "YYYY-MM-DD", // Date pattern for log files
-      level: "error", // Log level
-      maxFiles: "14d", // Keep logs for 14 days
+      filename: path.join(LOG_DIR, "error-%DATE%.log"),
+      datePattern: "YYYY-MM-DD",
+      level: "error",
+      maxFiles: "14d",
+      zippedArchive: true,
     }),
     new DailyRotateFile({
-      filename: path.join(__dirname, "../../logs/combined-%DATE%.log"), // Combined logs with date rotation
-      datePattern: "YYYY-MM-DD", // Date pattern for log files
-      maxFiles: "14d", // Keep logs for 14 days
+      filename: path.join(LOG_DIR, "combined-%DATE%.log"),
+      datePattern: "YYYY-MM-DD",
+      maxFiles: "14d",
+      zippedArchive: true,
     }),
   ],
 });
 
-// Add console transport in development mode
-if (process.env.NODE_ENV !== "production") {
+// ----- Conditional Console Transport -----
+
+if (!IS_PRODUCTION) {
   logger.add(
     new transports.Console({
-      format: format.combine(
-        format.colorize(), // Colorize logs for better readability
-        format.simple(), // Simple format for console output
-      ),
+      format: format.combine(format.colorize(), format.simple()),
     }),
   );
 }
+
+// ----- Ensure Log Directory Exists -----
+ensureLogDirectoryExists();
+
+// ----- Utility Functions -----
+
+function ensureLogDirectoryExists() {
+  try {
+    fs.mkdirSync(LOG_DIR, { recursive: true });
+  } catch (error) {
+    logger.error("Error creating log directory:", error);
+    process.exit(1);
+  }
+}
+
+// ----- Export -----
 
 export default logger;

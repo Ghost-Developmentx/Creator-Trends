@@ -4,8 +4,8 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Install PostgreSQL client and nano text editor
-RUN apk add --no-cache postgresql-client nano
+# Install PostgreSQL client, nano text editor, and git for potential package installations
+RUN apk add --no-cache postgresql-client nano git
 
 # Copy .env files
 COPY .env .env
@@ -15,6 +15,9 @@ COPY .env.docker .env.docker
 # Copy package files and install dependencies
 COPY package.json package-lock.json ./
 RUN npm install
+
+# Install Jest and other test dependencies
+RUN npm install --save-dev jest ts-jest @types/jest supertest
 
 # Copy the rest of your app's source code
 COPY . .
@@ -26,7 +29,7 @@ RUN node switch-env.js docker
 RUN npm run build
 
 # Stage 2: Production Stage
-FROM node:18-alpine
+FROM node:18-alpine AS production
 
 # Set working directory
 WORKDIR /app
@@ -46,6 +49,21 @@ COPY --from=builder /app/.env .env
 COPY --from=builder /app/.env.local .env.local
 COPY --from=builder /app/.env.docker .env.docker
 
+# Copy Jest config file and test setup
+COPY --from=builder /app/jest.config.js ./jest.config.js
+COPY --from=builder /app/jest.setup.js ./jest.setup.js
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+
+# Copy db.ts and other necessary config files
+COPY --from=builder /app/src/config/db.ts ./src/config/db.ts
+COPY --from=builder /app/src/routes/auth.ts ./src/routes/auth.ts
+COPY --from=builder /app/src/config/logger.ts ./src/config/logger.ts
+COPY --from=builder /app/src/models/user.ts ./src/models/user.ts
+COPY --from=builder /app/src/types/user.ts ./src/types/user.ts
+
+# Copy tests directory
+COPY --from=builder /app/src/tests ./src/tests
+
 # Copy verification and environment switching scripts
 COPY --from=builder /app/verifyBuild.js ./verifyBuild.js
 COPY --from=builder /app/switch-env.js ./switch-env.js
@@ -61,3 +79,12 @@ EXPOSE 3001
 
 # Set the command to start your app
 CMD ["node", "dist/server.js"]
+
+# Stage 3: Testing Stage
+FROM production AS test
+
+# Install Jest and other test dependencies
+RUN npm install --save-dev jest ts-jest @types/jest supertest
+
+# Run tests
+CMD ["npm", "test"]

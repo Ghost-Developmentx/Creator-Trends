@@ -25,7 +25,6 @@
     "src/**/*",
     "src/tests/**/*"
   ],
-  // Ensure tests are included
   "exclude": [
     "node_modules"
   ]

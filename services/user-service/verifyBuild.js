@@ -2,47 +2,47 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-// Function to load environment variables from multiple .env files
-function loadEnv(files) {
-  files.forEach((file) => {
-    const filePath = path.resolve(__dirname, file);
-    if (fs.existsSync(filePath)) {
-      const envConfig = require("dotenv").parse(fs.readFileSync(filePath));
-      for (const key in envConfig) {
-        if (Object.prototype.hasOwnProperty.call(envConfig, key)) {
-          process.env[key] = envConfig[key];
-        }
-      }
-    } else {
-      console.warn(`Warning: ${file} not found.`);
-    }
-  });
-}
+// ----- Configuration -----
 
-// Load environment variables from .env, .env.local, and .env.docker
-loadEnv([".env", ".env.local", ".env.docker"]);
-
-// Paths to important files and directories
-const requiredFiles = [
+/**
+ * The path to the build directory.
+ *
+ * @type {string}
+ * @constant
+ *
+ * @example
+ * console.log(BUILD_DIRECTORY); // '/path/to/directory/dist'
+ */
+const BUILD_DIRECTORY = path.resolve(__dirname, "dist");
+/**
+ * An array representing the required files and their properties.
+ * @typedef {Object} File
+ * @property {string} path - The file path.
+ * @property {string} checksum - The checksum value of the file.
+ */
+const REQUIRED_FILES = [
   {
-    path: path.join(__dirname, "dist", "server.js"),
+    path: "server.js",
     checksum:
-      "caa005f3ff3e9810ec16efe8d8572fe5d2846620820fc6da606cd1a3dde264ad", // Replace with actual checksum value
+      "caa005f3ff3e9810ec16efe8d8572fe5d2846620820fc6da606cd1a3dde264ad",
   },
   {
-    path: path.join(__dirname, "dist", "config", "config.js"),
+    path: "config/config.js",
     checksum:
-      "31442ca9254c25118307071991f3694c4f3467d74735f6cff3fdb9bd6a4c7f23", // Replace with actual checksum value
+      "31442ca9254c25118307071991f3694c4f3467d74735f6cff3fdb9bd6a4c7f23",
   },
   {
-    path: path.join(__dirname, "dist", "docs", "swagger.yaml"),
+    path: "docs/swagger.yaml",
     checksum:
-      "2d575e9def66267d7117928480c423b438d536db57dfdcd4d7011158e5157fab", // Replace with actual checksum value
+      "2d575e9def66267d7117928480c423b438d536db57dfdcd4d7011158e5157fab",
   },
 ];
-
-// Environment variables that need to be checked
-const requiredEnvVars = [
+/**
+ * Array containing the names of the required environment variables.
+ *
+ * @type {string[]}
+ */
+const REQUIRED_ENV_VARS = [
   "DB_HOST",
   "DB_USER",
   "DB_PASSWORD",
@@ -50,64 +50,100 @@ const requiredEnvVars = [
   "PORT",
   "JWT_SECRET",
 ];
+/**
+ * An array of environment file names used for configuration.
+ *
+ * @type {string[]}
+ */
+const ENV_FILES = [".env", ".env.local", ".env.docker"];
 
-// Function to check if required files exist and validate checksum
-function checkFiles() {
-  let allFilesExist = true;
+// ----- Utility Functions -----
 
-  requiredFiles.forEach((file) => {
-    if (!fs.existsSync(file.path)) {
-      console.error(`Error: Missing file - ${file.path}`);
-      allFilesExist = false;
+/**
+ * Loads environment files.
+ *
+ * @param {string[]} envFiles - An array of environment file paths.
+ */
+function loadEnvFiles(envFiles) {
+  envFiles.forEach((file) => {
+    const filePath = path.resolve(__dirname, file);
+    if (fs.existsSync(filePath)) {
+      require("dotenv").config({ path: filePath });
     } else {
-      console.log(`File exists: ${file.path}`);
-      const checksum = generateChecksum(file.path);
-      if (checksum !== file.checksum) {
-        console.error(
-          `Error: Checksum mismatch for ${file.path}. Expected ${file.checksum}, got ${checksum}`,
-        );
-        allFilesExist = false;
-      } else {
-        console.log(`Checksum valid for ${file.path}`);
-      }
+      console.warn(`Warning: Environment file ${file} not found.`);
     }
   });
-
-  return allFilesExist;
 }
 
-// Function to generate a checksum for a file
+/**
+ * Generates the checksum for a given file.
+ * @param {string} filePath - The path to the file.
+ * @return {string} The hex string representing the checksum of the file.
+ */
 function generateChecksum(filePath) {
   const fileBuffer = fs.readFileSync(filePath);
-  const hash = crypto.createHash("sha256");
-  hash.update(fileBuffer);
-  return hash.digest("hex");
+  return crypto.createHash("sha256").update(fileBuffer).digest("hex");
 }
 
-// Function to check if environment variables are set
-function checkEnvVars() {
-  let allVarsSet = true;
+// ----- Verification Logic -----
 
-  requiredEnvVars.forEach((envVar) => {
-    if (!process.env[envVar]) {
-      console.error(`Error: Missing environment variable - ${envVar}`);
-      allVarsSet = false;
-    } else {
-      console.log(`Environment variable set: ${envVar}`);
-    }
-  });
+/**
+ * Checks if a file exists and has a valid checksum.
+ *
+ * @param {object} file - The file object containing path and checksum properties.
+ * @param {string} file.path - The relative path of the file.
+ * @param {string} file.checksum - The expected checksum of the file.
+ * @return {boolean} Returns true if the file exists and has a valid checksum, false otherwise.
+ */
+function checkFile(file) {
+  const filePath = path.join(BUILD_DIRECTORY, file.path);
+  if (!fs.existsSync(filePath)) {
+    console.error(`Error: Missing file - ${filePath}`);
+    return false;
+  }
 
-  return allVarsSet;
+  const checksum = generateChecksum(filePath);
+  if (checksum !== file.checksum) {
+    console.error(
+      `Error: Checksum mismatch for ${filePath}. Expected ${file.checksum}, got ${checksum}`,
+    );
+    return false;
+  }
+
+  console.log(`File exists and checksum valid: ${filePath}`);
+  return true;
 }
 
-// Main function to verify build
+/**
+ * Check if an environment variable is set.
+ *
+ * @param {string} envVar - The name of the environment variable.
+ * @return {boolean} - True if the environment variable is set, false otherwise.
+ */
+function checkEnvVar(envVar) {
+  if (!process.env[envVar]) {
+    console.error(`Error: Missing environment variable - ${envVar}`);
+    return false;
+  }
+  console.log(`Environment variable set: ${envVar}`);
+  return true;
+}
+
+// ----- Main Function -----
+
+/**
+ * Starts the build verification process.
+ *
+ * @returns {undefined}
+ */
 function verifyBuild() {
   console.log("Starting build verification...");
+  loadEnvFiles(ENV_FILES);
 
-  const filesValid = checkFiles();
-  const envVarsValid = checkEnvVars();
+  const allFilesValid = REQUIRED_FILES.every(checkFile);
+  const allEnvVarsValid = REQUIRED_ENV_VARS.every(checkEnvVar);
 
-  if (filesValid && envVarsValid) {
+  if (allFilesValid && allEnvVarsValid) {
     console.log("Build verification completed successfully.");
     process.exit(0); // Exit with success
   } else {
@@ -116,5 +152,4 @@ function verifyBuild() {
   }
 }
 
-// Run the verification
 verifyBuild();

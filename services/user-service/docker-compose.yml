@@ -26,7 +26,10 @@ services:
       - .env.docker
     environment:
       - IS_DOCKER=true
-      - NODE_ENV=development # Set environment to development
+      - NODE_ENV=development
+      - LOG_DIR=/app/logs
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       db:
         condition: service_healthy
