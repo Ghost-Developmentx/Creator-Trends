@@ -69,6 +69,16 @@ class ProfileService {
     await user.update(updates);
     return user.toJSON() as IUser;
   }
+
+  /**
+   * Retrieve all user profiles.
+   *
+   * @returns An array of IUser objects representing all user profiles
+   */
+  async getAllProfiles(): Promise<IUser[]> {
+    const users = await User.findAll();
+    return users.map((user) => user.toJSON() as IUser);
+  }
 }
 
 export default new ProfileService();

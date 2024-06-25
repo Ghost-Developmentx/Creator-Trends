@@ -1,7 +1,7 @@
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { IUser } from "../types/user"; // Assuming you have this type defined
+import { IUser } from "@/types/user"; // Assuming you have this type defined
 
 // Custom error classes for better error handling
 export class UserExistsError extends Error {
@@ -35,14 +35,22 @@ if (!secretKey) {
 
 const AuthService = {
   // Register a new user
-  async register(email: string, password: string): Promise<string> {
+  async register(
+    email: string,
+    password: string,
+    username: string,
+  ): Promise<string> {
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       throw new UserExistsError("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ email, password: hashedPassword });
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      username,
+    }); // Include username
 
     return this.generateToken(newUser);
   },

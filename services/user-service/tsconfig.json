@@ -3,57 +3,39 @@
     "target": "ES2021",
     "module": "commonjs",
     "strict": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": ".",
-    "lib": [
-      "ES2021"
-    ],
+    "baseUrl": "./src",
     "paths": {
       "@/*": [
-        "src/*"
-      ],
-      "@models/*": [
-        "./src/models/*"
-      ],
-      "@routes/*": [
-        "./src/routes/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
+        "*"
       ],
       "@controllers/*": [
-        "./src/controllers/*"
+        "controllers/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@config/*": [
+        "config/*"
       ],
       "@services/*": [
-        "./src/services/*"
+        "services/*"
       ],
       "@utils/*": [
-        "./src/utils/*"
+        "utils/*"
       ]
-    },
-    "types": [
-      "node",
-      "jest"
-    ]
+    }
   },
   "include": [
-    "src/**/*",
-    "/tests/**/*",
-    "global.d.ts"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts"
-  ],
-  "compileOnSave": false,
-  "typeRoots": [
-    "./node_modules/@types"
+    "dist",
+    "src/tests/**/*"
   ]
 }

@@ -8,6 +8,7 @@ const authService_1 = __importDefault(require("../services/authService"));
 const authValidators_1 = require("@/validators/authValidators");
 const errorHandlers_1 = require("@utils/errorHandlers");
 const http_status_codes_1 = require("@/constants/http-status-codes");
+const server_1 = require("@/server");
 /**
  * Register a new user.
  *
@@ -18,6 +19,7 @@ const register = async (req, res) => {
     try {
         const { email, password } = (0, authValidators_1.validateRegister)(req.body);
         const token = await authService_1.default.register(email, password);
+        server_1.userRegistrations.inc();
         res.status(http_status_codes_1.StatusCodes.CREATED).json({ token });
     }
     catch (err) {
@@ -36,9 +38,11 @@ const login = async (req, res) => {
     try {
         const { email, password } = (0, authValidators_1.validateLogin)(req.body);
         const token = await authService_1.default.login(email, password);
+        server_1.loginAttempts.inc({ status: "success" });
         res.status(http_status_codes_1.StatusCodes.OK).json({ token });
     }
     catch (err) {
+        server_1.loginAttempts.inc({ status: "failure" });
         (0, errorHandlers_1.logError)("login", err);
         (0, errorHandlers_1.handleServiceError)(err, res);
     }

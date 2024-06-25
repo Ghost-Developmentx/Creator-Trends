@@ -10,15 +10,17 @@ enum Environment {
 }
 
 const ENV_FILE_MAP: Record<Environment, string> = {
-  [Environment.Development]: ".env.local",
+  [Environment.Development]: ".env",
   [Environment.Docker]: ".env.docker",
-  [Environment.Production]: ".env",
+  [Environment.Production]: ".env.production",
   [Environment.Test]: ".env.test",
 };
 
 const env = (process.env.NODE_ENV as Environment) || Environment.Development;
 const configPath = path.resolve(__dirname, "..", "..", ENV_FILE_MAP[env]);
 
+console.log(`Current NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`Resolved environment: ${env}`);
 console.log(`Loading environment variables from: ${configPath}`);
 dotenv.config({ path: configPath });
 
@@ -29,37 +31,35 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is required and not found in environment.");
 }
 
-const loggingOption =
-  process.env.SEQUELIZE_LOGGING === "true" ? console.log : false;
-
-const sequelize = new Sequelize(databaseUrl, {
+export const sequelize = new Sequelize(databaseUrl, {
   dialect: "postgres",
-  logging: loggingOption,
+  logging: (msg) => console.log(`[Sequelize] ${msg}`),
 });
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const initDatabase = async () => {
-  try {
-    // Add a small delay to ensure the database is ready
-    await delay(2000);
+export const initDatabase = async (retries = 5, interval = 5000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      console.log(`Attempt ${i + 1} to connect to the database...`);
+      await sequelize.authenticate();
+      console.log("Database connection has been established successfully.");
 
-    await sequelize.authenticate();
-    console.log(
-      "Connection to the database has been established successfully.",
-    );
+      if (env === Environment.Test) {
+        await sequelize.drop();
+        console.log("All tables dropped for test environment.");
+      }
 
-    if (process.env.NODE_ENV === "test") {
-      await sequelize.drop();
-      console.log("All tables dropped.");
+      await sequelize.sync({ force: env === Environment.Test });
+      console.log("Database synced and tables created successfully!");
+      return;
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+      if (i < retries - 1) {
+        console.log(`Retrying in ${interval / 1000} seconds...`);
+        await delay(interval);
+      }
     }
-
-    await sequelize.sync({ force: process.env.NODE_ENV === "test" });
-    console.log("Database synchronized successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-    throw error;
   }
+  throw new Error("Failed to connect to the database after multiple attempts");
 };
-
-export default sequelize;

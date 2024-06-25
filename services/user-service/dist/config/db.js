@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initDatabase = void 0;
+exports.initDatabase = exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
@@ -35,13 +35,15 @@ var Environment;
     Environment["Test"] = "test";
 })(Environment || (Environment = {}));
 const ENV_FILE_MAP = {
-    [Environment.Development]: ".env.local",
+    [Environment.Development]: ".env",
     [Environment.Docker]: ".env.docker",
-    [Environment.Production]: ".env",
+    [Environment.Production]: ".env.production",
     [Environment.Test]: ".env.test",
 };
 const env = process.env.NODE_ENV || Environment.Development;
 const configPath = path.resolve(__dirname, "..", "..", ENV_FILE_MAP[env]);
+console.log(`Current NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`Resolved environment: ${env}`);
 console.log(`Loading environment variables from: ${configPath}`);
 dotenv.config({ path: configPath });
 const databaseUrl = process.env.DATABASE_URL;
@@ -49,29 +51,33 @@ console.log(`Loaded DATABASE_URL: ${databaseUrl}`);
 if (!databaseUrl) {
     throw new Error("DATABASE_URL is required and not found in environment.");
 }
-const loggingOption = process.env.SEQUELIZE_LOGGING === "true" ? console.log : false;
-const sequelize = new sequelize_1.Sequelize(databaseUrl, {
+exports.sequelize = new sequelize_1.Sequelize(databaseUrl, {
     dialect: "postgres",
-    logging: loggingOption,
+    logging: (msg) => console.log(`[Sequelize] ${msg}`),
 });
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const initDatabase = async () => {
-    try {
-        // Add a small delay to ensure the database is ready
-        await delay(2000);
-        await sequelize.authenticate();
-        console.log("Connection to the database has been established successfully.");
-        if (process.env.NODE_ENV === "test") {
-            await sequelize.drop();
-            console.log("All tables dropped.");
+const initDatabase = async (retries = 5, interval = 5000) => {
+    for (let i = 0; i < retries; i++) {
+        try {
+            console.log(`Attempt ${i + 1} to connect to the database...`);
+            await exports.sequelize.authenticate();
+            console.log("Database connection has been established successfully.");
+            if (env === Environment.Test) {
+                await exports.sequelize.drop();
+                console.log("All tables dropped for test environment.");
+            }
+            await exports.sequelize.sync({ force: env === Environment.Test });
+            console.log("Database synced and tables created successfully!");
+            return;
         }
-        await sequelize.sync({ force: process.env.NODE_ENV === "test" });
-        console.log("Database synchronized successfully.");
+        catch (error) {
+            console.error("Unable to connect to the database:", error);
+            if (i < retries - 1) {
+                console.log(`Retrying in ${interval / 1000} seconds...`);
+                await delay(interval);
+            }
+        }
     }
-    catch (error) {
-        console.error("Unable to connect to the database:", error);
-        throw error;
-    }
+    throw new Error("Failed to connect to the database after multiple attempts");
 };
 exports.initDatabase = initDatabase;
-exports.default = sequelize;

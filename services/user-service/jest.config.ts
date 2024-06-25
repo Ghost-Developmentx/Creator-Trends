@@ -10,9 +10,10 @@ const config: Config.InitialOptions = {
     "^.+\\.ts$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "js", "json", "node"],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-    prefix: "<rootDir>/",
-  }),
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" }),
+    "^@config/swagger$": "<rootDir>/src/__mocks__/swaggerMock.ts",
+  },
   collectCoverage: true,
   coverageDirectory: "coverage",
   collectCoverageFrom: ["src/**/*.{ts,js}", "!src/**/*.d.ts"],

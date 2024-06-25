@@ -1,36 +1,3093 @@
+// File: src/__mocks__/swaggerMock.ts
+import { Application } from "express";
+
+export const swaggerDocument = {};
+
+export const setupSwagger = (_app: Application): void => {
+  // Do nothing in tests
+};
+
 // File: src/config/db.ts
 import { Sequelize } from "sequelize";
 import * as path from "path";
 import * as dotenv from "dotenv";
 
-// ----- Configuration -----
-
 enum Environment {
   Development = "development",
   Docker = "docker",
   Production = "production",
+  Test = "test",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 const ENV_FILE_MAP: Record<Environment, string> = {
-  // Using Record for type safety
   [Environment.Development]: ".env.local",
   [Environment.Docker]: ".env.docker",
   [Environment.Production]: ".env",
+  [Environment.Test]: ".env.test",
 };
 
 const env = (process.env.NODE_ENV as Environment) || Environment.Development;
-const configPath = path.resolve(__dirname, "..", ENV_FILE_MAP[env]);
+const configPath = path.resolve(__dirname, "..", "..", ENV_FILE_MAP[env]);
 
-// ----- Environment Setup -----
-
+console.log(`Loading environment variables from: ${configPath}`);
 dotenv.config({ path: configPath });
+
 const databaseUrl = process.env.DATABASE_URL;
+console.log(`Loaded DATABASE_URL: ${databaseUrl}`);
 
 if (!databaseUrl) {
   throw new Error("DATABASE_URL is required and not found in environment.");
 }
-
-// ----- Sequelize Instance -----
 
 const loggingOption =
   process.env.SEQUELIZE_LOGGING === "true" ? console.log : false;
@@ -40,16 +3097,29 @@ const sequelize = new Sequelize(databaseUrl, {
   logging: loggingOption,
 });
 
-(async () => {
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const initDatabase = async () => {
   try {
+    await delay(2000); // Ensure DB is ready
+
     await sequelize.authenticate();
     console.log(
       "Connection to the database has been established successfully.",
     );
+
+    if (process.env.NODE_ENV === "test") {
+      await sequelize.drop();
+      console.log("All tables dropped.");
+    }
+
+    await sequelize.sync({ force: process.env.NODE_ENV === "test" });
+    console.log("Database synchronized successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
+    throw error;
   }
-})();
+};
 
 export default sequelize;
 
@@ -123,7 +3193,6 @@ function ensureLogDirectoryExists() {
 export default logger;
 
 // File: src/config/swagger.ts
-// user-service/src/config/swagger.ts
 import swaggerUi from "swagger-ui-express";
 import { Application } from "express";
 import fs from "fs";
@@ -131,20 +3200,31 @@ import yaml from "js-yaml";
 import path from "path";
 
 // Define the path to your YAML file
-const yamlFilePath = path.join(__dirname, "./../docs/swagger.yaml");
+const yamlFilePath = path.join(__dirname, "..", "..", "docs", "swagger.yaml");
 
-// Read and parse the YAML file
-const swaggerDocument = yaml.load(
-  fs.readFileSync(yamlFilePath, "utf8"),
-) as Record<string, any>;
+let swaggerDocument: Record<string, any> = {};
+
+try {
+  // Read and parse the YAML file
+  swaggerDocument = yaml.load(fs.readFileSync(yamlFilePath, "utf8")) as Record<
+    string,
+    any
+  >;
+} catch (error) {
+  console.warn(
+    "Warning: Swagger YAML file not found or invalid. Swagger UI will not be available.",
+  );
+}
 
 const setupSwagger = (app: Application) => {
-  // Serve the Swagger UI and the YAML file
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  app.get("/swagger.json", (_req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    res.send(swaggerDocument);
-  });
+  if (Object.keys(swaggerDocument).length > 0) {
+    // Serve the Swagger UI and the YAML file
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.get("/swagger.json", (_req, res) => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(swaggerDocument);
+    });
+  }
 };
 
 export { swaggerDocument, setupSwagger };
@@ -175,25 +3255,217 @@ const swaggerSpec = swaggerJSDoc(options);
 fs.writeFileSync("./swagger.yaml", JSON.stringify(swaggerSpec, null, 2));
 console.log("Swagger YAML file generated at ./swagger.yaml");
 
-// File: src/models/user.ts
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../config/db";
-import { IUser } from "../types/user"; // Import the interface if you plan to use it
+// File: src/constants/http-status-codes.ts
+// src/constants/http-status-codes.ts
 
-interface UserAttributes extends IUser {
-  id: number; // Ensure id is included for model attributes
+/**
+ * Common HTTP status codes as constants.
+ *
+ * The HTTP status codes are categorized by their types:
+ * - Informational (1xx)
+ * - Successful (2xx)
+ * - Redirection (3xx)
+ * - Client Error (4xx)
+ * - Server Error (5xx)
+ */
+
+export const StatusCodes = {
+  // Informational responses
+  CONTINUE: 100,
+  SWITCHING_PROTOCOLS: 101,
+  PROCESSING: 102,
+  EARLY_HINTS: 103,
+
+  // Successful responses
+  OK: 200,
+  CREATED: 201,
+  ACCEPTED: 202,
+  NON_AUTHORITATIVE_INFORMATION: 203,
+  NO_CONTENT: 204,
+  RESET_CONTENT: 205,
+  PARTIAL_CONTENT: 206,
+  MULTI_STATUS: 207,
+  ALREADY_REPORTED: 208,
+  IM_USED: 226,
+
+  // Redirection messages
+  MULTIPLE_CHOICES: 300,
+  MOVED_PERMANENTLY: 301,
+  FOUND: 302,
+  SEE_OTHER: 303,
+  NOT_MODIFIED: 304,
+  USE_PROXY: 305,
+  TEMPORARY_REDIRECT: 307,
+  PERMANENT_REDIRECT: 308,
+
+  // Client error responses
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  PAYMENT_REQUIRED: 402,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  METHOD_NOT_ALLOWED: 405,
+  NOT_ACCEPTABLE: 406,
+  PROXY_AUTHENTICATION_REQUIRED: 407,
+  REQUEST_TIMEOUT: 408,
+  CONFLICT: 409,
+  GONE: 410,
+  LENGTH_REQUIRED: 411,
+  PRECONDITION_FAILED: 412,
+  PAYLOAD_TOO_LARGE: 413,
+  URI_TOO_LONG: 414,
+  UNSUPPORTED_MEDIA_TYPE: 415,
+  RANGE_NOT_SATISFIABLE: 416,
+  EXPECTATION_FAILED: 417,
+  I_AM_A_TEAPOT: 418, // Just for fun, HTTP/1.0 joke status code
+  MISDIRECTED_REQUEST: 421,
+  UNPROCESSABLE_ENTITY: 422,
+  LOCKED: 423,
+  FAILED_DEPENDENCY: 424,
+  TOO_EARLY: 425,
+  UPGRADE_REQUIRED: 426,
+  PRECONDITION_REQUIRED: 428,
+  TOO_MANY_REQUESTS: 429,
+  REQUEST_HEADER_FIELDS_TOO_LARGE: 431,
+  UNAVAILABLE_FOR_LEGAL_REASONS: 451,
+
+  // Server error responses
+  INTERNAL_SERVER_ERROR: 500,
+  NOT_IMPLEMENTED: 501,
+  BAD_GATEWAY: 502,
+  SERVICE_UNAVAILABLE: 503,
+  GATEWAY_TIMEOUT: 504,
+  HTTP_VERSION_NOT_SUPPORTED: 505,
+  VARIANT_ALSO_NEGOTIATES: 506,
+  INSUFFICIENT_STORAGE: 507,
+  LOOP_DETECTED: 508,
+  NOT_EXTENDED: 510,
+  NETWORK_AUTHENTICATION_REQUIRED: 511,
+};
+
+export default StatusCodes;
+
+// File: src/controllers/authController.ts
+import { Request, Response } from "express";
+import AuthService from "../services/authService";
+import { validateRegister, validateLogin } from "@/validators/authValidators";
+import { handleServiceError, logError } from "@utils/errorHandlers";
+import { StatusCodes } from "@/constants/http-status-codes";
+import { userRegistrations, loginAttempts } from "@/server";
+
+/**
+ * Register a new user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const register = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = validateRegister(req.body);
+    const token = await AuthService.register(email, password);
+    userRegistrations.inc(); // Increment the registration counter
+    res.status(StatusCodes.CREATED).json({ token });
+  } catch (err) {
+    logError("register", err);
+    handleServiceError(err, res);
+  }
+};
+
+/**
+ * Login an existing user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = validateLogin(req.body);
+    const token = await AuthService.login(email, password);
+    loginAttempts.inc({ status: "success" }); // Increment the login counter for successful attempts
+    res.status(StatusCodes.OK).json({ token });
+  } catch (err) {
+    loginAttempts.inc({ status: "failure" }); // Increment the login counter for failed attempts
+    logError("login", err);
+    handleServiceError(err, res);
+  }
+};
+
+// File: src/controllers/profileController.ts
+import { Request, Response } from "express";
+import profileService from "../services/profileService";
+import {
+  validateUserId,
+  validateUserProfileUpdate,
+} from "@/validators/profileValidators";
+import { handleServiceError, logError } from "@utils/errorHandlers";
+import { StatusCodes } from "@/constants/http-status-codes";
+
+/**
+ * Get the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getProfile = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const userId = validateUserId(req.params.id);
+    const user = await profileService.getProfile(userId);
+    res.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    logError("getProfile", error);
+    handleServiceError(error, res);
+  }
+};
+
+/**
+ * Update the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const updateProfile = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const userId = validateUserId(req.params.id);
+    const updates = validateUserProfileUpdate(req.body);
+    const user = await profileService.updateProfile(userId, updates);
+    res.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    logError("updateProfile", error);
+    handleServiceError(error, res);
+  }
+};
+
+// File: src/models/user.ts
+import { DataTypes, Model, Optional, FindOptions } from "sequelize";
+import sequelize from "../config/db";
+
+// Define the model attributes
+interface UserAttributes {
+  id: number;
+  email: string;
+  password: string;
+  googleId?: string;
+  facebookId?: string;
 }
 
 // Define the creation attributes without id, since it will be auto-generated
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes
+  extends Optional<UserAttributes, "id" | "googleId" | "facebookId"> {}
 
+// User model class definition
 class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
   public id!: number;
   public email!: string;
-  public password?: string;
+  public password!: string;
   public googleId?: string;
   public facebookId?: string;
 }
@@ -210,21 +3482,28 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     googleId: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     facebookId: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
     sequelize,
-    tableName: "Users", // Explicitly set the table name
-    modelName: "User", // Explicitly set the model name
+    tableName: "Users",
+    modelName: "User",
+    timestamps: true,
   },
 );
 
@@ -232,196 +3511,291 @@ export default User;
 
 // File: src/routes/auth.ts
 // services/user-service/src/routes/auth.ts
-import express, { Request, Response } from "express";
-import User from "../models/user";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { config } from "dotenv";
-import { z } from "zod";
-import { Model } from "sequelize";
-import logger from "../config/logger";
+import { Router } from "express";
+import { register, login } from "@controllers/authController";
 
-// Load environment variables
-config();
+const router = Router();
 
-// Define the router
-const router = express.Router();
+router.post("/register", register);
+router.post("/login", login);
 
-/**
- * @openapi
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
- *         id:
- *           type: integer
- *           description: The user ID
- *         email:
- *           type: string
- *           description: The user's email
- *         password:
- *           type: string
- *           description: The user's password
- */
-interface UserInstance extends Model {
-  id: number;
-  email: string;
-  password: string;
-  googleId?: string;
-  facebookId?: string;
-}
+export default router;
 
-const registerSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6),
-});
+// File: src/routes/profile.ts
+// services/user-service/src/routes/profile.ts
+import { Router } from "express";
+import { getProfile, updateProfile } from "@controllers/profileController";
 
-/**
- * @openapi
- * /api/auth/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Error registering user
- */
-router.post("/register", async (req: Request, res: Response) => {
-  logger.info("Register route called");
-  try {
-    const { email, password } = registerSchema.parse(req.body);
-    const existingUser = (await User.findOne({
-      where: { email },
-    })) as UserInstance | null;
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: [{ code: "unique", message: "Email already exists" }] });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = (await User.create({
-      email,
-      password: hashedPassword,
-    })) as UserInstance;
+const router = Router();
 
-    const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
-      expiresIn: "1h",
-    });
+router.get("/:id", getProfile);
+router.put("/:id", updateProfile);
 
-    res.status(201).json({ token });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      res.status(400).json({ error: err.errors });
-    } else {
-      logger.error("Registration error:", err);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-});
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
-
-/**
- * @openapi
- * /api/auth/login:
- *   post:
- *     summary: Login a user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: User logged in successfully
- *       401:
- *         description: Invalid credentials
- */
-router.post("/login", async (req: Request, res: Response) => {
-  logger.info("Login route called");
-  try {
-    const { email, password } = loginSchema.parse(req.body);
-    const user = (await User.findOne({
-      where: { email },
-    })) as UserInstance | null;
-    if (!user || !user.password) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
-      expiresIn: "1h",
-    });
-    res.json({ token });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      res.status(400).json({ error: err.errors });
-    } else {
-      logger.error("Login error:", err);
-      res.status(500).json({ error: "Server Error" });
-    }
-  }
-});
 export default router;
 
 // File: src/server.ts
-// services/user-service/src/server.ts
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
+import promBundle from "express-prom-bundle";
+import { Registry, Counter, Histogram } from "prom-client";
 import sequelize from "./config/db";
 import authRoutes from "./routes/auth";
-import { setupSwagger, swaggerDocument } from "./config/swagger";
+import profileRoutes from "./routes/profile";
+import { setupSwagger } from "@config/swagger";
 import logger from "./config/logger";
 
 const app = express();
 
-app.use(express.json());
-app.use("/api/auth", authRoutes);
+// Create a new Prometheus registry
+const register = new Registry();
 
-// Setup Swagger
-console.log("Setting up Swagger...");
-setupSwagger(app);
-
-// Debug route for Swagger spec
-app.get("/swagger.json", (_req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerDocument);
+// Create custom metrics
+export const userRegistrations = new Counter({
+  name: "user_service_registrations_total",
+  help: "Total number of user registrations",
+  registers: [register],
 });
 
-const startServer = async () => {
+export const loginAttempts = new Counter({
+  name: "user_service_login_attempts_total",
+  help: "Total number of login attempts",
+  labelNames: ["status"],
+  registers: [register],
+});
+
+const httpRequestDurationMicroseconds = new Histogram({
+  name: "user_service_http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "code"],
+  buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10],
+  registers: [register],
+});
+
+// Add Prometheus middleware
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: true,
+  includeStatusCode: true,
+  includeUp: true,
+  customLabels: { project_name: "user_service" },
+  promClient: {
+    collectDefaultMetrics: {
+      register,
+    },
+  },
+  metricsPath: "/metrics",
+});
+
+app.use(metricsMiddleware);
+app.use(express.json());
+
+// Use the custom metrics in your routes
+app.use(
+  "/api/auth",
+  (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+      end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+  },
+  authRoutes,
+);
+
+app.use(
+  "/api/profile",
+  (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+      end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+  },
+  profileRoutes,
+);
+
+setupSwagger(app);
+
+// Error handling middleware with explicit types
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  logger.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
+});
+
+export const startServer = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: process.env.NODE_ENV === "development" });
     logger.info("Database & tables created successfully!");
-    app.listen(3001, () => {
-      logger.info("User Service running on port 3001");
+    const port = process.env.PORT || 3001;
+    app.listen(port, () => {
+      logger.info(`User Service running on port ${port}`);
     });
   } catch (error) {
     logger.error("Unable to start server:", error);
+    process.exit(1);
   }
 };
 
-startServer()
-  .then(() => logger.info("Server started successfully"))
-  .catch((error) => logger.error("Error starting server:", error));
+if (require.main === module) {
+  startServer()
+    .then(() => logger.info("Server started successfully"))
+    .catch((error) => {
+      logger.error("Error starting server:", error);
+      process.exit(1);
+    });
+}
+
+export default app;
+
+// File: src/services/authService.ts
+import User from "../models/user";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { IUser } from "../types/user"; // Assuming you have this type defined
+
+// Custom error classes for better error handling
+export class UserExistsError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UserExistsError";
+  }
+}
+
+export class InvalidCredentialsError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidCredentialsError";
+  }
+}
+
+export class ConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ConfigurationError";
+  }
+}
+
+// Get JWT secret from environment variables
+const secretKey = process.env.JWT_SECRET;
+if (!secretKey) {
+  throw new ConfigurationError(
+    "JWT_SECRET is not defined in environment variables",
+  );
+}
+
+const AuthService = {
+  // Register a new user
+  async register(email: string, password: string): Promise<string> {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      throw new UserExistsError("User already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ email, password: hashedPassword });
+
+    return this.generateToken(newUser);
+  },
+
+  // Login an existing user
+  async login(email: string, password: string): Promise<string> {
+    const user = await User.findOne({ where: { email } });
+    if (!user || !user.password) {
+      throw new InvalidCredentialsError("Invalid credentials");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new InvalidCredentialsError("Invalid credentials");
+    }
+
+    return this.generateToken(user);
+  },
+
+  // Generate JWT token
+  generateToken(user: IUser): string {
+    return jwt.sign({ id: user.id, email: user.email }, secretKey, {
+      expiresIn: "1h",
+    });
+  },
+};
+
+export default AuthService;
+
+// File: src/services/profileService.ts
+import User from "../models/user";
+import { IUser } from "@/types/user";
+
+// Custom Error Classes
+export class InvalidUserIdError extends Error {
+  constructor(message = "Invalid user ID") {
+    super(message);
+    this.name = "InvalidUserIdError";
+  }
+}
+
+export class UserNotFoundError extends Error {
+  constructor(userId: number) {
+    super(`User with ID ${userId} not found`);
+    this.name = "UserNotFoundError";
+  }
+}
+
+export class ConfigurationError extends Error {
+  constructor(message = "Configuration error") {
+    super(message);
+    this.name = "ConfigurationError";
+  }
+}
+
+class ProfileService {
+  /**
+   * Retrieve a user's profile by user ID.
+   *
+   * @param userId - The ID of the user
+   * @returns The user's profile as an IUser object
+   * @throws InvalidUserIdError if the user ID is invalid
+   * @throws UserNotFoundError if the user does not exist
+   */
+  async getProfile(userId: number): Promise<IUser> {
+    if (!Number.isInteger(userId) || userId <= 0) {
+      throw new InvalidUserIdError();
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new UserNotFoundError(userId);
+    }
+    return user.toJSON() as IUser;
+  }
+
+  /**
+   * Update a user's profile by user ID.
+   *
+   * @param userId - The ID of the user
+   * @param updates - The updates to apply to the user's profile
+   * @returns The updated user's profile as an IUser object
+   * @throws InvalidUserIdError if the user ID is invalid
+   * @throws UserNotFoundError if the user does not exist
+   */
+  async updateProfile(
+    userId: number,
+    updates: Partial<Omit<IUser, "id">>,
+  ): Promise<IUser> {
+    if (!Number.isInteger(userId) || userId <= 0) {
+      throw new InvalidUserIdError();
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new UserNotFoundError(userId);
+    }
+
+    await user.update(updates);
+    return user.toJSON() as IUser;
+  }
+}
+
+export default new ProfileService();
 
 // File: src/tests/auth.test.js
 "use strict";
@@ -522,27 +3896,15 @@ describe("Auth Endpoints", () => {
 });
 
 // File: src/tests/auth.test.ts
-import express from "express";
 import request from "supertest";
-import sequelize from "../config/db";
-import authRoutes from "../routes/auth";
-
-const app = express();
-app.use(express.json());
-app.use("/api/auth", authRoutes);
-
-beforeAll(async () => {
-  await sequelize.sync({ force: true }); // Reset the database
-});
-
-afterAll(async () => {
-  await sequelize.close();
-});
+import app from "../server";
+import User from "../models/user";
+import * as bcrypt from "bcrypt";
 
 describe("Auth Endpoints", () => {
   it("should register a new user", async () => {
     const res = await request(app).post("/api/auth/register").send({
-      email: "test@example.com",
+      email: "newuser@example.com",
       password: "password123",
     });
     expect(res.statusCode).toEqual(201);
@@ -550,18 +3912,30 @@ describe("Auth Endpoints", () => {
   });
 
   it("should not register a user with existing email", async () => {
+    const hashedPassword = await bcrypt.hash("existingpassword", 10);
+    await User.create({
+      email: "existing@example.com",
+      password: hashedPassword,
+    });
+
     const res = await request(app).post("/api/auth/register").send({
-      email: "test@example.com",
+      email: "existing@example.com",
       password: "password123",
     });
-    expect(res.statusCode).toEqual(400);
+    expect(res.statusCode).toEqual(409);
     expect(res.body).toHaveProperty("error");
   });
 
   it("should login an existing user", async () => {
+    const hashedPassword = await bcrypt.hash("testpassword", 10);
+    await User.create({
+      email: "logintest@example.com",
+      password: hashedPassword,
+    });
+
     const res = await request(app).post("/api/auth/login").send({
-      email: "test@example.com",
-      password: "password123",
+      email: "logintest@example.com",
+      password: "testpassword",
     });
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty("token");
@@ -569,7 +3943,7 @@ describe("Auth Endpoints", () => {
 
   it("should not login with incorrect credentials", async () => {
     const res = await request(app).post("/api/auth/login").send({
-      email: "test@example.com",
+      email: "logintest@example.com",
       password: "wrongpassword",
     });
     expect(res.statusCode).toEqual(401);
@@ -581,7 +3955,51 @@ describe("Auth Endpoints", () => {
       password: "short",
     });
     expect(res.statusCode).toEqual(400);
-    expect(res.body).toHaveProperty("error");
+    expect(res.body).toHaveProperty("errors");
+  });
+});
+
+// File: src/tests/profile.test.ts
+import request from "supertest";
+import app from "../server";
+import User from "../models/user";
+
+describe("Profile Endpoints", () => {
+  let token: string;
+  let userId: number;
+
+  beforeAll(async () => {
+    await global.setupTestUser();
+    const user = await User.findOne({ where: { email: "test@example.com" } });
+    if (!user) {
+      throw new Error("Test user not found");
+    }
+    userId = user.id;
+
+    const res = await request(app).post("/api/auth/login").send({
+      email: "test@example.com",
+      password: "testpassword",
+    });
+    token = res.body.token;
+  });
+
+  it("should get a user profile", async () => {
+    const res = await request(app)
+      .get(`/api/profile/${userId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("email", "test@example.com");
+  });
+
+  it("should update a user profile", async () => {
+    const res = await request(app)
+      .put(`/api/profile/${userId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        email: "updated@example.com",
+      });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("email", "updated@example.com");
   });
 });
 
@@ -652,6 +4070,131 @@ export interface IUser {
   googleId?: string;
   facebookId?: string;
 }
+
+// File: src/utils/errorHandlers.ts
+import { Response } from "express";
+import { ZodError } from "zod";
+import {
+  InvalidUserIdError,
+  UserNotFoundError,
+  ConfigurationError,
+} from "@services/profileService";
+import {
+  UserExistsError,
+  InvalidCredentialsError,
+} from "@services/authService";
+import { StatusCodes } from "@/constants/http-status-codes";
+
+/**
+ * Handle service errors and send appropriate responses.
+ *
+ * @param err - Error object
+ * @param res - Express response object
+ */
+export const handleServiceError = (err: any, res: Response) => {
+  if (err instanceof ZodError) {
+    res.status(StatusCodes.BAD_REQUEST).json({ errors: err.errors });
+  } else if (err instanceof UserExistsError) {
+    res.status(StatusCodes.CONFLICT).json({ error: err.message });
+  } else if (err instanceof InvalidCredentialsError) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ error: "Invalid credentials" });
+  } else if (err instanceof ConfigurationError) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal server error" });
+  } else if (err instanceof InvalidUserIdError) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: err.message });
+  } else if (err instanceof UserNotFoundError) {
+    res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
+  } else {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal server error" });
+  }
+};
+
+/**
+ * Log errors for debugging purposes.
+ *
+ * @param context - Context or source of the error
+ * @param err - Error object
+ */
+export const logError = (context: string, err: any) => {
+  console.error(`Error in ${context}:`, err);
+};
+
+// File: src/validators/authValidators.ts
+import { z } from "zod";
+
+const registerSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+/**
+ * Validate registration input.
+ *
+ * @param data - Input data for registration
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+export const validateRegister = (data: any) => {
+  return registerSchema.parse(data);
+};
+
+/**
+ * Validate login input.
+ *
+ * @param data - Input data for login
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+export const validateLogin = (data: any) => {
+  return loginSchema.parse(data);
+};
+
+// File: src/validators/profileValidators.ts
+import { z } from "zod";
+import { InvalidUserIdError } from "@services/profileService";
+
+const userIdSchema = z.number().int().positive();
+const userProfileUpdateSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  bio: z.string().optional(),
+  // Add other fields as needed
+});
+
+/**
+ * Validate and parse user ID.
+ *
+ * @param id - User ID from request parameters
+ * @returns Validated user ID
+ * @throws InvalidUserIdError if validation fails
+ */
+export const validateUserId = (id: any): number => {
+  const parsedId = userIdSchema.safeParse(Number(id));
+  if (!parsedId.success) {
+    throw new InvalidUserIdError(); // No argument needed
+  }
+  return parsedId.data;
+};
+
+/**
+ * Validate and parse user profile update data.
+ *
+ * @param data - User profile data from request body
+ * @returns Validated user profile data
+ * @throws ValidationError if validation fails
+ */
+export const validateUserProfileUpdate = (data: any) => {
+  return userProfileUpdateSchema.parse(data);
+};
 
 // File: config/config.js
 require("dotenv").config();
@@ -743,13 +4286,350 @@ db.Sequelize = Sequelize;
 
 module.exports = db;
 
-// File: services/user-service/package-lock.json
+// File: migrations/20240618232657-create-users-table.js
+"use strict";
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("Users", {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+      googleId: {
+        type: Sequelize.STRING,
+      },
+      facebookId: {
+        type: Sequelize.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+    });
+  },
+
+  down: async (queryInterface) => {
+    await queryInterface.dropTable("Users");
+  },
+};
+
+// File: docs/swagger.yaml
 {
-  "name": "app",
-  "lockfileVersion": 3,
-  "requires": true,
-  "packages": {}
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User Service API",
+    "version": "1.0.0",
+    "description": "API documentation for the User Service"
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": [ "Auth" ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authentication"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login a user",
+        "tags": [ "Auth" ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authentication"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/{userId}": {
+      "get": {
+        "summary": "Get user profile",
+        "tags": [ "Profile" ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [ ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update user profile",
+        "tags": [ "Profile" ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The user ID"
+          },
+          "email": {
+            "type": "string",
+            "description": "The user's email"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the user was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the user was last updated"
+          }
+        }
+      },
+      "UserInput": {
+        "type": "object",
+        "required": [ "email", "password" ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The user's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "The user's password"
+          }
+        }
+      },
+      "UserUpdateInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The user's new email"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Profile",
+      "description": "User profile management endpoints"
+    }
+  ]
 }
+// File: dist/__mocks__/swaggerMock.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.setupSwagger = exports.swaggerDocument = void 0;
+exports.swaggerDocument = {};
+const setupSwagger = (_app) => {
+    // Do nothing in tests
+};
+exports.setupSwagger = setupSwagger;
 
 // File: dist/config/config.js
 require("dotenv").config();
@@ -814,55 +4694,57 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.initDatabase = void 0;
 const sequelize_1 = require("sequelize");
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
-// ----- Configuration -----
 var Environment;
 (function (Environment) {
     Environment["Development"] = "development";
     Environment["Docker"] = "docker";
     Environment["Production"] = "production";
+    Environment["Test"] = "test";
 })(Environment || (Environment = {}));
 const ENV_FILE_MAP = {
-    // Using Record for type safety
     [Environment.Development]: ".env.local",
     [Environment.Docker]: ".env.docker",
     [Environment.Production]: ".env",
+    [Environment.Test]: ".env.test",
 };
 const env = process.env.NODE_ENV || Environment.Development;
-const configPath = path.resolve(__dirname, "..", ENV_FILE_MAP[env]);
-// ----- Environment Setup -----
+const configPath = path.resolve(__dirname, "..", "..", ENV_FILE_MAP[env]);
+console.log(`Loading environment variables from: ${configPath}`);
 dotenv.config({ path: configPath });
 const databaseUrl = process.env.DATABASE_URL;
+console.log(`Loaded DATABASE_URL: ${databaseUrl}`);
 if (!databaseUrl) {
     throw new Error("DATABASE_URL is required and not found in environment.");
 }
-// ----- Sequelize Instance -----
 const loggingOption = process.env.SEQUELIZE_LOGGING === "true" ? console.log : false;
 const sequelize = new sequelize_1.Sequelize(databaseUrl, {
     dialect: "postgres",
     logging: loggingOption,
 });
-(() => __awaiter(void 0, void 0, void 0, function* () {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const initDatabase = async () => {
     try {
-        yield sequelize.authenticate();
+        await delay(2000); // Ensure DB is ready
+        await sequelize.authenticate();
         console.log("Connection to the database has been established successfully.");
+        if (process.env.NODE_ENV === "test") {
+            await sequelize.drop();
+            console.log("All tables dropped.");
+        }
+        await sequelize.sync({ force: process.env.NODE_ENV === "test" });
+        console.log("Database synchronized successfully.");
     }
     catch (error) {
         console.error("Unable to connect to the database:", error);
+        throw error;
     }
-}))();
+};
+exports.initDatabase = initDatabase;
 exports.default = sequelize;
 
 // File: dist/config/logger.js
@@ -929,25 +4811,219 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setupSwagger = exports.swaggerDocument = void 0;
-// user-service/src/config/swagger.ts
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const fs_1 = __importDefault(require("fs"));
 const js_yaml_1 = __importDefault(require("js-yaml"));
 const path_1 = __importDefault(require("path"));
 // Define the path to your YAML file
-const yamlFilePath = path_1.default.join(__dirname, "./../docs/swagger.yaml");
-// Read and parse the YAML file
-const swaggerDocument = js_yaml_1.default.load(fs_1.default.readFileSync(yamlFilePath, "utf8"));
+const yamlFilePath = path_1.default.join(__dirname, "..", "..", "docs", "swagger.yaml");
+let swaggerDocument = {};
 exports.swaggerDocument = swaggerDocument;
+try {
+    // Read and parse the YAML file
+    exports.swaggerDocument = swaggerDocument = js_yaml_1.default.load(fs_1.default.readFileSync(yamlFilePath, "utf8"));
+}
+catch (error) {
+    console.warn("Warning: Swagger YAML file not found or invalid. Swagger UI will not be available.");
+}
 const setupSwagger = (app) => {
-    // Serve the Swagger UI and the YAML file
-    app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
-    app.get("/swagger.json", (_req, res) => {
-        res.setHeader("Content-Type", "application/json");
-        res.send(swaggerDocument);
-    });
+    if (Object.keys(swaggerDocument).length > 0) {
+        // Serve the Swagger UI and the YAML file
+        app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
+        app.get("/swagger.json", (_req, res) => {
+            res.setHeader("Content-Type", "application/json");
+            res.send(swaggerDocument);
+        });
+    }
 };
 exports.setupSwagger = setupSwagger;
+
+// File: dist/constants/http-status-codes.js
+"use strict";
+// src/constants/http-status-codes.ts
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StatusCodes = void 0;
+/**
+ * Common HTTP status codes as constants.
+ *
+ * The HTTP status codes are categorized by their types:
+ * - Informational (1xx)
+ * - Successful (2xx)
+ * - Redirection (3xx)
+ * - Client Error (4xx)
+ * - Server Error (5xx)
+ */
+exports.StatusCodes = {
+    // Informational responses
+    CONTINUE: 100,
+    SWITCHING_PROTOCOLS: 101,
+    PROCESSING: 102,
+    EARLY_HINTS: 103,
+    // Successful responses
+    OK: 200,
+    CREATED: 201,
+    ACCEPTED: 202,
+    NON_AUTHORITATIVE_INFORMATION: 203,
+    NO_CONTENT: 204,
+    RESET_CONTENT: 205,
+    PARTIAL_CONTENT: 206,
+    MULTI_STATUS: 207,
+    ALREADY_REPORTED: 208,
+    IM_USED: 226,
+    // Redirection messages
+    MULTIPLE_CHOICES: 300,
+    MOVED_PERMANENTLY: 301,
+    FOUND: 302,
+    SEE_OTHER: 303,
+    NOT_MODIFIED: 304,
+    USE_PROXY: 305,
+    TEMPORARY_REDIRECT: 307,
+    PERMANENT_REDIRECT: 308,
+    // Client error responses
+    BAD_REQUEST: 400,
+    UNAUTHORIZED: 401,
+    PAYMENT_REQUIRED: 402,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    METHOD_NOT_ALLOWED: 405,
+    NOT_ACCEPTABLE: 406,
+    PROXY_AUTHENTICATION_REQUIRED: 407,
+    REQUEST_TIMEOUT: 408,
+    CONFLICT: 409,
+    GONE: 410,
+    LENGTH_REQUIRED: 411,
+    PRECONDITION_FAILED: 412,
+    PAYLOAD_TOO_LARGE: 413,
+    URI_TOO_LONG: 414,
+    UNSUPPORTED_MEDIA_TYPE: 415,
+    RANGE_NOT_SATISFIABLE: 416,
+    EXPECTATION_FAILED: 417,
+    I_AM_A_TEAPOT: 418, // Just for fun, HTTP/1.0 joke status code
+    MISDIRECTED_REQUEST: 421,
+    UNPROCESSABLE_ENTITY: 422,
+    LOCKED: 423,
+    FAILED_DEPENDENCY: 424,
+    TOO_EARLY: 425,
+    UPGRADE_REQUIRED: 426,
+    PRECONDITION_REQUIRED: 428,
+    TOO_MANY_REQUESTS: 429,
+    REQUEST_HEADER_FIELDS_TOO_LARGE: 431,
+    UNAVAILABLE_FOR_LEGAL_REASONS: 451,
+    // Server error responses
+    INTERNAL_SERVER_ERROR: 500,
+    NOT_IMPLEMENTED: 501,
+    BAD_GATEWAY: 502,
+    SERVICE_UNAVAILABLE: 503,
+    GATEWAY_TIMEOUT: 504,
+    HTTP_VERSION_NOT_SUPPORTED: 505,
+    VARIANT_ALSO_NEGOTIATES: 506,
+    INSUFFICIENT_STORAGE: 507,
+    LOOP_DETECTED: 508,
+    NOT_EXTENDED: 510,
+    NETWORK_AUTHENTICATION_REQUIRED: 511,
+};
+exports.default = exports.StatusCodes;
+
+// File: dist/controllers/authController.js
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.login = exports.register = void 0;
+const authService_1 = __importDefault(require("../services/authService"));
+const authValidators_1 = require("@/validators/authValidators");
+const errorHandlers_1 = require("@utils/errorHandlers");
+const http_status_codes_1 = require("@/constants/http-status-codes");
+const server_1 = require("@/server");
+/**
+ * Register a new user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+const register = async (req, res) => {
+    try {
+        const { email, password } = (0, authValidators_1.validateRegister)(req.body);
+        const token = await authService_1.default.register(email, password);
+        server_1.userRegistrations.inc(); // Increment the registration counter
+        res.status(http_status_codes_1.StatusCodes.CREATED).json({ token });
+    }
+    catch (err) {
+        (0, errorHandlers_1.logError)("register", err);
+        (0, errorHandlers_1.handleServiceError)(err, res);
+    }
+};
+exports.register = register;
+/**
+ * Login an existing user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+const login = async (req, res) => {
+    try {
+        const { email, password } = (0, authValidators_1.validateLogin)(req.body);
+        const token = await authService_1.default.login(email, password);
+        server_1.loginAttempts.inc({ status: "success" }); // Increment the login counter for successful attempts
+        res.status(http_status_codes_1.StatusCodes.OK).json({ token });
+    }
+    catch (err) {
+        server_1.loginAttempts.inc({ status: "failure" }); // Increment the login counter for failed attempts
+        (0, errorHandlers_1.logError)("login", err);
+        (0, errorHandlers_1.handleServiceError)(err, res);
+    }
+};
+exports.login = login;
+
+// File: dist/controllers/profileController.js
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateProfile = exports.getProfile = void 0;
+const profileService_1 = __importDefault(require("../services/profileService"));
+const profileValidators_1 = require("@/validators/profileValidators");
+const errorHandlers_1 = require("@utils/errorHandlers");
+const http_status_codes_1 = require("@/constants/http-status-codes");
+/**
+ * Get the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+const getProfile = async (req, res) => {
+    try {
+        const userId = (0, profileValidators_1.validateUserId)(req.params.id);
+        const user = await profileService_1.default.getProfile(userId);
+        res.status(http_status_codes_1.StatusCodes.OK).json(user);
+    }
+    catch (error) {
+        (0, errorHandlers_1.logError)("getProfile", error);
+        (0, errorHandlers_1.handleServiceError)(error, res);
+    }
+};
+exports.getProfile = getProfile;
+/**
+ * Update the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+const updateProfile = async (req, res) => {
+    try {
+        const userId = (0, profileValidators_1.validateUserId)(req.params.id);
+        const updates = (0, profileValidators_1.validateUserProfileUpdate)(req.body);
+        const user = await profileService_1.default.updateProfile(userId, updates);
+        res.status(http_status_codes_1.StatusCodes.OK).json(user);
+    }
+    catch (error) {
+        (0, errorHandlers_1.logError)("updateProfile", error);
+        (0, errorHandlers_1.handleServiceError)(error, res);
+    }
+};
+exports.updateProfile = updateProfile;
 
 // File: dist/docs/swagger.yaml
 {
@@ -961,25 +5037,53 @@ exports.setupSwagger = setupSwagger;
     "/api/auth/register": {
       "post": {
         "summary": "Register a new user",
-        "tags": [
-          "Auth"
-        ],
+        "tags": [ "Auth" ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserInput"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "User registered successfully"
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authentication"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Error registering user"
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -987,27 +5091,151 @@ exports.setupSwagger = setupSwagger;
     "/api/auth/login": {
       "post": {
         "summary": "Login a user",
-        "tags": [
-          "Auth"
-        ],
+        "tags": [ "Auth" ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "User logged in successfully"
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "JWT token for authentication"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Invalid credentials"
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
+      }
+    },
+    "/api/profile/{userId}": {
+      "get": {
+        "summary": "Get user profile",
+        "tags": [ "Profile" ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [ ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "Update user profile",
+        "tags": [ "Profile" ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "User ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": [ ]
+          }
+        ]
       }
     }
   },
@@ -1015,10 +5243,6 @@ exports.setupSwagger = setupSwagger;
     "schemas": {
       "User": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -1028,16 +5252,170 @@ exports.setupSwagger = setupSwagger;
             "type": "string",
             "description": "The user's email"
           },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the user was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the user was last updated"
+          }
+        }
+      },
+      "UserInput": {
+        "type": "object",
+        "required": [ "email", "password" ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The user's email"
+          },
           "password": {
             "type": "string",
             "description": "The user's password"
           }
         }
+      },
+      "UserUpdateInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The user's new email"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   },
-  "tags": []
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Profile",
+      "description": "User profile management endpoints"
+    }
+  ]
 }
+// File: dist/global.d.ts
+export {};
+
+declare global {
+  function setupTestUser(): Promise<void>;
+}
+
+// File: dist/jest.config.ts
+import type { Config } from "@jest/types";
+import { pathsToModuleNameMapper } from "ts-jest";
+
+const { compilerOptions } = require("./tsconfig.json");
+
+const config: Config.InitialOptions = {
+  preset: "ts-jest",
+  testEnvironment: "node",
+  transform: {
+    "^.+\\.ts$": "ts-jest",
+  },
+  moduleFileExtensions: ["ts", "js", "json", "node"],
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: "<rootDir>/" }),
+    "^@config/swagger$": "<rootDir>/src/__mocks__/swaggerMock.ts",
+  },
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  collectCoverageFrom: ["src/**/*.{ts,js}", "!src/**/*.d.ts"],
+  coverageReporters: ["json", "lcov", "text", "clover"],
+  verbose: true,
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
+  testMatch: ["**/src/**/*.test.ts", "**/?(*.)+(spec|test).ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  globalSetup: "<rootDir>/jest.global-setup.ts",
+  globalTeardown: "<rootDir>/jest.global-teardown.ts",
+  roots: ["<rootDir>/src"],
+};
+
+export default config;
+
+// File: dist/jest.global-setup.ts
+import { initDatabase } from "./src/config/db";
+
+module.exports = async () => {
+  await initDatabase();
+  console.log("Global setup: Database initialized");
+};
+
+// File: dist/jest.global-teardown.ts
+import sequelize from "./src/config/db";
+
+module.exports = async () => {
+  await sequelize.close();
+  console.log("Global teardown: Database connection closed");
+};
+
+// File: dist/jest.setup.ts
+import * as dotenv from "dotenv";
+import * as path from "path";
+import * as bcrypt from "bcrypt";
+import User from "./src/models/user";
+import { initDatabase } from "./src/config/db";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.test") });
+
+declare global {
+  function setupTestUser(): Promise<void>;
+}
+
+global.setupTestUser = async () => {
+  const existingUser = await User.findOne({
+    where: { email: "test@example.com" },
+  });
+  if (!existingUser) {
+    const hashedPassword = await bcrypt.hash("testpassword", 10);
+    await User.create({
+      email: "test@example.com",
+      password: hashedPassword,
+    });
+    console.log("Test user created");
+  } else {
+    console.log("Test user already exists");
+  }
+};
+
+beforeAll(async () => {
+  try {
+    await initDatabase();
+    console.log("Test database initialized");
+  } catch (error) {
+    console.error("Error initializing test database:", error);
+    process.exit(1);
+  }
+});
+
+afterAll(async () => {
+  const sequelize = (await import("./src/config/db")).default;
+  await sequelize.close();
+  console.log("Database connection closed");
+});
+
 // File: dist/models/user.js
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
@@ -1046,6 +5424,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../config/db"));
+// User model class definition
 class User extends sequelize_1.Model {
 }
 // Initialize the model
@@ -1059,239 +5438,332 @@ User.init({
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+            isEmail: true,
+        },
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
     },
     googleId: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
     },
     facebookId: {
         type: sequelize_1.DataTypes.STRING,
+        allowNull: true,
     },
 }, {
     sequelize: db_1.default,
-    tableName: "Users", // Explicitly set the table name
-    modelName: "User", // Explicitly set the model name
+    tableName: "Users",
+    modelName: "User",
+    timestamps: true,
 });
 exports.default = User;
 
 // File: dist/routes/auth.js
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // services/user-service/src/routes/auth.ts
-const express_1 = __importDefault(require("express"));
-const user_1 = __importDefault(require("../models/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const dotenv_1 = require("dotenv");
-const zod_1 = require("zod");
-const logger_1 = __importDefault(require("../config/logger"));
-// Load environment variables
-(0, dotenv_1.config)();
-// Define the router
-const router = express_1.default.Router();
-const registerSchema = zod_1.z.object({
-    email: zod_1.z.string().email({ message: "Invalid email address" }),
-    password: zod_1.z.string().min(6),
-});
-/**
- * @openapi
- * /api/auth/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Error registering user
- */
-router.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    logger_1.default.info("Register route called");
-    try {
-        const { email, password } = registerSchema.parse(req.body);
-        const existingUser = (yield user_1.default.findOne({
-            where: { email },
-        }));
-        if (existingUser) {
-            return res
-                .status(400)
-                .json({ error: [{ code: "unique", message: "Email already exists" }] });
-        }
-        const salt = yield bcrypt_1.default.genSalt(10);
-        const hashedPassword = yield bcrypt_1.default.hash(password, salt);
-        const newUser = (yield user_1.default.create({
-            email,
-            password: hashedPassword,
-        }));
-        const token = jsonwebtoken_1.default.sign({ userId: newUser.id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-        });
-        res.status(201).json({ token });
-    }
-    catch (err) {
-        if (err instanceof zod_1.z.ZodError) {
-            res.status(400).json({ error: err.errors });
-        }
-        else {
-            logger_1.default.error("Registration error:", err);
-            res.status(500).json({ error: "Internal Server Error" });
-        }
-    }
-}));
-const loginSchema = zod_1.z.object({
-    email: zod_1.z.string().email(),
-    password: zod_1.z.string().min(6),
-});
-/**
- * @openapi
- * /api/auth/login:
- *   post:
- *     summary: Login a user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: User logged in successfully
- *       401:
- *         description: Invalid credentials
- */
-router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    logger_1.default.info("Login route called");
-    try {
-        const { email, password } = loginSchema.parse(req.body);
-        const user = (yield user_1.default.findOne({
-            where: { email },
-        }));
-        if (!user || !user.password) {
-            return res.status(401).json({ error: "Invalid credentials" });
-        }
-        const isMatch = yield bcrypt_1.default.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ error: "Invalid credentials" });
-        }
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-        });
-        res.json({ token });
-    }
-    catch (err) {
-        if (err instanceof zod_1.z.ZodError) {
-            res.status(400).json({ error: err.errors });
-        }
-        else {
-            logger_1.default.error("Login error:", err);
-            res.status(500).json({ error: "Server Error" });
-        }
-    }
-}));
+const express_1 = require("express");
+const authController_1 = require("@controllers/authController");
+const router = (0, express_1.Router)();
+router.post("/register", authController_1.register);
+router.post("/login", authController_1.login);
+exports.default = router;
+
+// File: dist/routes/profile.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// services/user-service/src/routes/profile.ts
+const express_1 = require("express");
+const profileController_1 = require("@controllers/profileController");
+const router = (0, express_1.Router)();
+router.get("/:id", profileController_1.getProfile);
+router.put("/:id", profileController_1.updateProfile);
 exports.default = router;
 
 // File: dist/server.js
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// services/user-service/src/server.ts
+exports.startServer = exports.loginAttempts = exports.userRegistrations = void 0;
 const express_1 = __importDefault(require("express"));
+const express_prom_bundle_1 = __importDefault(require("express-prom-bundle"));
+const prom_client_1 = require("prom-client");
 const db_1 = __importDefault(require("./config/db"));
 const auth_1 = __importDefault(require("./routes/auth"));
-const swagger_1 = require("./config/swagger");
+const profile_1 = __importDefault(require("./routes/profile"));
+const swagger_1 = require("@config/swagger");
 const logger_1 = __importDefault(require("./config/logger"));
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use("/api/auth", auth_1.default);
-// Setup Swagger
-console.log("Setting up Swagger...");
-(0, swagger_1.setupSwagger)(app);
-// Debug route for Swagger spec
-app.get("/swagger.json", (_req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    res.send(swagger_1.swaggerDocument);
+// Create a new Prometheus registry
+const register = new prom_client_1.Registry();
+// Create custom metrics
+exports.userRegistrations = new prom_client_1.Counter({
+    name: "user_service_registrations_total",
+    help: "Total number of user registrations",
+    registers: [register],
 });
-const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.loginAttempts = new prom_client_1.Counter({
+    name: "user_service_login_attempts_total",
+    help: "Total number of login attempts",
+    labelNames: ["status"],
+    registers: [register],
+});
+const httpRequestDurationMicroseconds = new prom_client_1.Histogram({
+    name: "user_service_http_request_duration_seconds",
+    help: "Duration of HTTP requests in seconds",
+    labelNames: ["method", "route", "code"],
+    buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10],
+    registers: [register],
+});
+// Add Prometheus middleware
+const metricsMiddleware = (0, express_prom_bundle_1.default)({
+    includeMethod: true,
+    includePath: true,
+    includeStatusCode: true,
+    includeUp: true,
+    customLabels: { project_name: "user_service" },
+    promClient: {
+        collectDefaultMetrics: {
+            register,
+        },
+    },
+    metricsPath: "/metrics",
+});
+app.use(metricsMiddleware);
+app.use(express_1.default.json());
+// Use the custom metrics in your routes
+app.use("/api/auth", (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+        end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+}, auth_1.default);
+app.use("/api/profile", (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+        end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+}, profile_1.default);
+(0, swagger_1.setupSwagger)(app);
+// Error handling middleware with explicit types
+app.use((err, _req, res, _next) => {
+    logger_1.default.error(err.stack);
+    res.status(500).json({ error: "Something went wrong!" });
+});
+const startServer = async () => {
     try {
-        yield db_1.default.sync({ force: true });
+        await db_1.default.sync({ force: process.env.NODE_ENV === "development" });
         logger_1.default.info("Database & tables created successfully!");
-        app.listen(3001, () => {
-            logger_1.default.info("User Service running on port 3001");
+        const port = process.env.PORT || 3001;
+        app.listen(port, () => {
+            logger_1.default.info(`User Service running on port ${port}`);
         });
     }
     catch (error) {
         logger_1.default.error("Unable to start server:", error);
+        process.exit(1);
     }
-});
-startServer()
-    .then(() => logger_1.default.info("Server started successfully"))
-    .catch((error) => logger_1.default.error("Error starting server:", error));
+};
+exports.startServer = startServer;
+if (require.main === module) {
+    (0, exports.startServer)()
+        .then(() => logger_1.default.info("Server started successfully"))
+        .catch((error) => {
+        logger_1.default.error("Error starting server:", error);
+        process.exit(1);
+    });
+}
+exports.default = app;
+
+// File: dist/services/authService.js
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConfigurationError = exports.InvalidCredentialsError = exports.UserExistsError = void 0;
+const user_1 = __importDefault(require("../models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// Custom error classes for better error handling
+class UserExistsError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "UserExistsError";
+    }
+}
+exports.UserExistsError = UserExistsError;
+class InvalidCredentialsError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidCredentialsError";
+    }
+}
+exports.InvalidCredentialsError = InvalidCredentialsError;
+class ConfigurationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ConfigurationError";
+    }
+}
+exports.ConfigurationError = ConfigurationError;
+// Get JWT secret from environment variables
+const secretKey = process.env.JWT_SECRET;
+if (!secretKey) {
+    throw new ConfigurationError("JWT_SECRET is not defined in environment variables");
+}
+const AuthService = {
+    // Register a new user
+    async register(email, password) {
+        const existingUser = await user_1.default.findOne({ where: { email } });
+        if (existingUser) {
+            throw new UserExistsError("User already exists");
+        }
+        const hashedPassword = await bcrypt_1.default.hash(password, 10);
+        const newUser = await user_1.default.create({ email, password: hashedPassword });
+        return this.generateToken(newUser);
+    },
+    // Login an existing user
+    async login(email, password) {
+        const user = await user_1.default.findOne({ where: { email } });
+        if (!user || !user.password) {
+            throw new InvalidCredentialsError("Invalid credentials");
+        }
+        const isPasswordValid = await bcrypt_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            throw new InvalidCredentialsError("Invalid credentials");
+        }
+        return this.generateToken(user);
+    },
+    // Generate JWT token
+    generateToken(user) {
+        return jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, secretKey, {
+            expiresIn: "1h",
+        });
+    },
+};
+exports.default = AuthService;
+
+// File: dist/services/profileService.js
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConfigurationError = exports.UserNotFoundError = exports.InvalidUserIdError = void 0;
+const user_1 = __importDefault(require("../models/user"));
+// Custom Error Classes
+class InvalidUserIdError extends Error {
+    constructor(message = "Invalid user ID") {
+        super(message);
+        this.name = "InvalidUserIdError";
+    }
+}
+exports.InvalidUserIdError = InvalidUserIdError;
+class UserNotFoundError extends Error {
+    constructor(userId) {
+        super(`User with ID ${userId} not found`);
+        this.name = "UserNotFoundError";
+    }
+}
+exports.UserNotFoundError = UserNotFoundError;
+class ConfigurationError extends Error {
+    constructor(message = "Configuration error") {
+        super(message);
+        this.name = "ConfigurationError";
+    }
+}
+exports.ConfigurationError = ConfigurationError;
+class ProfileService {
+    /**
+     * Retrieve a user's profile by user ID.
+     *
+     * @param userId - The ID of the user
+     * @returns The user's profile as an IUser object
+     * @throws InvalidUserIdError if the user ID is invalid
+     * @throws UserNotFoundError if the user does not exist
+     */
+    async getProfile(userId) {
+        if (!Number.isInteger(userId) || userId <= 0) {
+            throw new InvalidUserIdError();
+        }
+        const user = await user_1.default.findByPk(userId);
+        if (!user) {
+            throw new UserNotFoundError(userId);
+        }
+        return user.toJSON();
+    }
+    /**
+     * Update a user's profile by user ID.
+     *
+     * @param userId - The ID of the user
+     * @param updates - The updates to apply to the user's profile
+     * @returns The updated user's profile as an IUser object
+     * @throws InvalidUserIdError if the user ID is invalid
+     * @throws UserNotFoundError if the user does not exist
+     */
+    async updateProfile(userId, updates) {
+        if (!Number.isInteger(userId) || userId <= 0) {
+            throw new InvalidUserIdError();
+        }
+        const user = await user_1.default.findByPk(userId);
+        if (!user) {
+            throw new UserNotFoundError(userId);
+        }
+        await user.update(updates);
+        return user.toJSON();
+    }
+}
+exports.default = new ProfileService();
+
+// File: dist/src/__mocks__/swaggerMock.ts
+import { Application } from "express";
+
+export const swaggerDocument = {};
+
+export const setupSwagger = (_app: Application): void => {
+  // Do nothing in tests
+};
 
 // File: dist/src/config/db.ts
 import { Sequelize } from "sequelize";
 import * as path from "path";
 import * as dotenv from "dotenv";
 
-// ----- Configuration -----
-
 enum Environment {
   Development = "development",
   Docker = "docker",
   Production = "production",
+  Test = "test",
 }
 
 const ENV_FILE_MAP: Record<Environment, string> = {
-  // Using Record for type safety
   [Environment.Development]: ".env.local",
   [Environment.Docker]: ".env.docker",
   [Environment.Production]: ".env",
+  [Environment.Test]: ".env.test",
 };
 
 const env = (process.env.NODE_ENV as Environment) || Environment.Development;
-const configPath = path.resolve(__dirname, "..", ENV_FILE_MAP[env]);
+const configPath = path.resolve(__dirname, "..", "..", ENV_FILE_MAP[env]);
 
-// ----- Environment Setup -----
-
+console.log(`Loading environment variables from: ${configPath}`);
 dotenv.config({ path: configPath });
+
 const databaseUrl = process.env.DATABASE_URL;
+console.log(`Loaded DATABASE_URL: ${databaseUrl}`);
 
 if (!databaseUrl) {
   throw new Error("DATABASE_URL is required and not found in environment.");
 }
-
-// ----- Sequelize Instance -----
 
 const loggingOption =
   process.env.SEQUELIZE_LOGGING === "true" ? console.log : false;
@@ -1301,16 +5773,29 @@ const sequelize = new Sequelize(databaseUrl, {
   logging: loggingOption,
 });
 
-(async () => {
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const initDatabase = async () => {
   try {
+    await delay(2000); // Ensure DB is ready
+
     await sequelize.authenticate();
     console.log(
       "Connection to the database has been established successfully.",
     );
+
+    if (process.env.NODE_ENV === "test") {
+      await sequelize.drop();
+      console.log("All tables dropped.");
+    }
+
+    await sequelize.sync({ force: process.env.NODE_ENV === "test" });
+    console.log("Database synchronized successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
+    throw error;
   }
-})();
+};
 
 export default sequelize;
 
@@ -1383,25 +5868,254 @@ function ensureLogDirectoryExists() {
 
 export default logger;
 
-// File: dist/src/models/user.ts
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../config/db";
-import { IUser } from "../types/user"; // Import the interface if you plan to use it
+// File: dist/src/config/swagger.ts
+import swaggerUi from "swagger-ui-express";
+import { Application } from "express";
+import fs from "fs";
+import yaml from "js-yaml";
+import path from "path";
 
-interface UserAttributes extends IUser {
-  id: number; // Ensure id is included for model attributes
+// Define the path to your YAML file
+const yamlFilePath = path.join(__dirname, "..", "..", "docs", "swagger.yaml");
+
+let swaggerDocument: Record<string, any> = {};
+
+try {
+  // Read and parse the YAML file
+  swaggerDocument = yaml.load(fs.readFileSync(yamlFilePath, "utf8")) as Record<
+    string,
+    any
+  >;
+} catch (error) {
+  console.warn(
+    "Warning: Swagger YAML file not found or invalid. Swagger UI will not be available.",
+  );
+}
+
+const setupSwagger = (app: Application) => {
+  if (Object.keys(swaggerDocument).length > 0) {
+    // Serve the Swagger UI and the YAML file
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.get("/swagger.json", (_req, res) => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(swaggerDocument);
+    });
+  }
+};
+
+export { swaggerDocument, setupSwagger };
+
+// File: dist/src/constants/http-status-codes.ts
+// src/constants/http-status-codes.ts
+
+/**
+ * Common HTTP status codes as constants.
+ *
+ * The HTTP status codes are categorized by their types:
+ * - Informational (1xx)
+ * - Successful (2xx)
+ * - Redirection (3xx)
+ * - Client Error (4xx)
+ * - Server Error (5xx)
+ */
+
+export const StatusCodes = {
+  // Informational responses
+  CONTINUE: 100,
+  SWITCHING_PROTOCOLS: 101,
+  PROCESSING: 102,
+  EARLY_HINTS: 103,
+
+  // Successful responses
+  OK: 200,
+  CREATED: 201,
+  ACCEPTED: 202,
+  NON_AUTHORITATIVE_INFORMATION: 203,
+  NO_CONTENT: 204,
+  RESET_CONTENT: 205,
+  PARTIAL_CONTENT: 206,
+  MULTI_STATUS: 207,
+  ALREADY_REPORTED: 208,
+  IM_USED: 226,
+
+  // Redirection messages
+  MULTIPLE_CHOICES: 300,
+  MOVED_PERMANENTLY: 301,
+  FOUND: 302,
+  SEE_OTHER: 303,
+  NOT_MODIFIED: 304,
+  USE_PROXY: 305,
+  TEMPORARY_REDIRECT: 307,
+  PERMANENT_REDIRECT: 308,
+
+  // Client error responses
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  PAYMENT_REQUIRED: 402,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  METHOD_NOT_ALLOWED: 405,
+  NOT_ACCEPTABLE: 406,
+  PROXY_AUTHENTICATION_REQUIRED: 407,
+  REQUEST_TIMEOUT: 408,
+  CONFLICT: 409,
+  GONE: 410,
+  LENGTH_REQUIRED: 411,
+  PRECONDITION_FAILED: 412,
+  PAYLOAD_TOO_LARGE: 413,
+  URI_TOO_LONG: 414,
+  UNSUPPORTED_MEDIA_TYPE: 415,
+  RANGE_NOT_SATISFIABLE: 416,
+  EXPECTATION_FAILED: 417,
+  I_AM_A_TEAPOT: 418, // Just for fun, HTTP/1.0 joke status code
+  MISDIRECTED_REQUEST: 421,
+  UNPROCESSABLE_ENTITY: 422,
+  LOCKED: 423,
+  FAILED_DEPENDENCY: 424,
+  TOO_EARLY: 425,
+  UPGRADE_REQUIRED: 426,
+  PRECONDITION_REQUIRED: 428,
+  TOO_MANY_REQUESTS: 429,
+  REQUEST_HEADER_FIELDS_TOO_LARGE: 431,
+  UNAVAILABLE_FOR_LEGAL_REASONS: 451,
+
+  // Server error responses
+  INTERNAL_SERVER_ERROR: 500,
+  NOT_IMPLEMENTED: 501,
+  BAD_GATEWAY: 502,
+  SERVICE_UNAVAILABLE: 503,
+  GATEWAY_TIMEOUT: 504,
+  HTTP_VERSION_NOT_SUPPORTED: 505,
+  VARIANT_ALSO_NEGOTIATES: 506,
+  INSUFFICIENT_STORAGE: 507,
+  LOOP_DETECTED: 508,
+  NOT_EXTENDED: 510,
+  NETWORK_AUTHENTICATION_REQUIRED: 511,
+};
+
+export default StatusCodes;
+
+// File: dist/src/controllers/authController.ts
+import { Request, Response } from "express";
+import AuthService from "../services/authService";
+import { validateRegister, validateLogin } from "@/validators/authValidators";
+import { handleServiceError, logError } from "@utils/errorHandlers";
+import { StatusCodes } from "@/constants/http-status-codes";
+import { userRegistrations, loginAttempts } from "@/server";
+
+/**
+ * Register a new user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const register = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = validateRegister(req.body);
+    const token = await AuthService.register(email, password);
+    userRegistrations.inc(); // Increment the registration counter
+    res.status(StatusCodes.CREATED).json({ token });
+  } catch (err) {
+    logError("register", err);
+    handleServiceError(err, res);
+  }
+};
+
+/**
+ * Login an existing user.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = validateLogin(req.body);
+    const token = await AuthService.login(email, password);
+    loginAttempts.inc({ status: "success" }); // Increment the login counter for successful attempts
+    res.status(StatusCodes.OK).json({ token });
+  } catch (err) {
+    loginAttempts.inc({ status: "failure" }); // Increment the login counter for failed attempts
+    logError("login", err);
+    handleServiceError(err, res);
+  }
+};
+
+// File: dist/src/controllers/profileController.ts
+import { Request, Response } from "express";
+import profileService from "../services/profileService";
+import {
+  validateUserId,
+  validateUserProfileUpdate,
+} from "@/validators/profileValidators";
+import { handleServiceError, logError } from "@utils/errorHandlers";
+import { StatusCodes } from "@/constants/http-status-codes";
+
+/**
+ * Get the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const getProfile = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const userId = validateUserId(req.params.id);
+    const user = await profileService.getProfile(userId);
+    res.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    logError("getProfile", error);
+    handleServiceError(error, res);
+  }
+};
+
+/**
+ * Update the profile of a user by ID.
+ *
+ * @param req - Express request object
+ * @param res - Express response object
+ */
+export const updateProfile = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const userId = validateUserId(req.params.id);
+    const updates = validateUserProfileUpdate(req.body);
+    const user = await profileService.updateProfile(userId, updates);
+    res.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    logError("updateProfile", error);
+    handleServiceError(error, res);
+  }
+};
+
+// File: dist/src/models/user.ts
+import { DataTypes, Model, Optional, FindOptions } from "sequelize";
+import sequelize from "../config/db";
+
+// Define the model attributes
+interface UserAttributes {
+  id: number;
+  email: string;
+  password: string;
+  googleId?: string;
+  facebookId?: string;
 }
 
 // Define the creation attributes without id, since it will be auto-generated
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes
+  extends Optional<UserAttributes, "id" | "googleId" | "facebookId"> {}
 
+// User model class definition
 class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
   public id!: number;
   public email!: string;
-  public password?: string;
+  public password!: string;
   public googleId?: string;
   public facebookId?: string;
 }
@@ -1418,21 +6132,28 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     googleId: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     facebookId: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
     sequelize,
-    tableName: "Users", // Explicitly set the table name
-    modelName: "User", // Explicitly set the model name
+    tableName: "Users",
+    modelName: "User",
+    timestamps: true,
   },
 );
 
@@ -1440,157 +6161,291 @@ export default User;
 
 // File: dist/src/routes/auth.ts
 // services/user-service/src/routes/auth.ts
-import express, { Request, Response } from "express";
+import { Router } from "express";
+import { register, login } from "@controllers/authController";
+
+const router = Router();
+
+router.post("/register", register);
+router.post("/login", login);
+
+export default router;
+
+// File: dist/src/routes/profile.ts
+// services/user-service/src/routes/profile.ts
+import { Router } from "express";
+import { getProfile, updateProfile } from "@controllers/profileController";
+
+const router = Router();
+
+router.get("/:id", getProfile);
+router.put("/:id", updateProfile);
+
+export default router;
+
+// File: dist/src/server.ts
+import express, { Request, Response, NextFunction } from "express";
+import promBundle from "express-prom-bundle";
+import { Registry, Counter, Histogram } from "prom-client";
+import sequelize from "./config/db";
+import authRoutes from "./routes/auth";
+import profileRoutes from "./routes/profile";
+import { setupSwagger } from "@config/swagger";
+import logger from "./config/logger";
+
+const app = express();
+
+// Create a new Prometheus registry
+const register = new Registry();
+
+// Create custom metrics
+export const userRegistrations = new Counter({
+  name: "user_service_registrations_total",
+  help: "Total number of user registrations",
+  registers: [register],
+});
+
+export const loginAttempts = new Counter({
+  name: "user_service_login_attempts_total",
+  help: "Total number of login attempts",
+  labelNames: ["status"],
+  registers: [register],
+});
+
+const httpRequestDurationMicroseconds = new Histogram({
+  name: "user_service_http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "code"],
+  buckets: [0.1, 0.3, 0.5, 0.7, 1, 3, 5, 7, 10],
+  registers: [register],
+});
+
+// Add Prometheus middleware
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: true,
+  includeStatusCode: true,
+  includeUp: true,
+  customLabels: { project_name: "user_service" },
+  promClient: {
+    collectDefaultMetrics: {
+      register,
+    },
+  },
+  metricsPath: "/metrics",
+});
+
+app.use(metricsMiddleware);
+app.use(express.json());
+
+// Use the custom metrics in your routes
+app.use(
+  "/api/auth",
+  (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+      end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+  },
+  authRoutes,
+);
+
+app.use(
+  "/api/profile",
+  (req, res, next) => {
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on("finish", () => {
+      end({ method: req.method, route: req.route?.path, code: res.statusCode });
+    });
+    next();
+  },
+  profileRoutes,
+);
+
+setupSwagger(app);
+
+// Error handling middleware with explicit types
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  logger.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
+});
+
+export const startServer = async () => {
+  try {
+    await sequelize.sync({ force: process.env.NODE_ENV === "development" });
+    logger.info("Database & tables created successfully!");
+    const port = process.env.PORT || 3001;
+    app.listen(port, () => {
+      logger.info(`User Service running on port ${port}`);
+    });
+  } catch (error) {
+    logger.error("Unable to start server:", error);
+    process.exit(1);
+  }
+};
+
+if (require.main === module) {
+  startServer()
+    .then(() => logger.info("Server started successfully"))
+    .catch((error) => {
+      logger.error("Error starting server:", error);
+      process.exit(1);
+    });
+}
+
+export default app;
+
+// File: dist/src/services/authService.ts
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
-import { z } from "zod";
-import { Model } from "sequelize";
-import logger from "../config/logger";
+import { IUser } from "../types/user"; // Assuming you have this type defined
 
-// Load environment variables
-config();
-
-// Define the router
-const router = express.Router();
-
-/**
- * @openapi
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
- *         id:
- *           type: integer
- *           description: The user ID
- *         email:
- *           type: string
- *           description: The user's email
- *         password:
- *           type: string
- *           description: The user's password
- */
-interface UserInstance extends Model {
-  id: number;
-  email: string;
-  password: string;
-  googleId?: string;
-  facebookId?: string;
+// Custom error classes for better error handling
+export class UserExistsError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UserExistsError";
+  }
 }
 
-const registerSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6),
-});
+export class InvalidCredentialsError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidCredentialsError";
+  }
+}
 
-/**
- * @openapi
- * /api/auth/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: User registered successfully
- *       400:
- *         description: Error registering user
- */
-router.post("/register", async (req: Request, res: Response) => {
-  logger.info("Register route called");
-  try {
-    const { email, password } = registerSchema.parse(req.body);
-    const existingUser = (await User.findOne({
-      where: { email },
-    })) as UserInstance | null;
+export class ConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ConfigurationError";
+  }
+}
+
+// Get JWT secret from environment variables
+const secretKey = process.env.JWT_SECRET;
+if (!secretKey) {
+  throw new ConfigurationError(
+    "JWT_SECRET is not defined in environment variables",
+  );
+}
+
+const AuthService = {
+  // Register a new user
+  async register(email: string, password: string): Promise<string> {
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ error: [{ code: "unique", message: "Email already exists" }] });
+      throw new UserExistsError("User already exists");
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = (await User.create({
-      email,
-      password: hashedPassword,
-    })) as UserInstance;
 
-    const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET!, {
-      expiresIn: "1h",
-    });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ email, password: hashedPassword });
 
-    res.status(201).json({ token });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      res.status(400).json({ error: err.errors });
-    } else {
-      logger.error("Registration error:", err);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-});
+    return this.generateToken(newUser);
+  },
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
-
-/**
- * @openapi
- * /api/auth/login:
- *   post:
- *     summary: Login a user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: User logged in successfully
- *       401:
- *         description: Invalid credentials
- */
-router.post("/login", async (req: Request, res: Response) => {
-  logger.info("Login route called");
-  try {
-    const { email, password } = loginSchema.parse(req.body);
-    const user = (await User.findOne({
-      where: { email },
-    })) as UserInstance | null;
+  // Login an existing user
+  async login(email: string, password: string): Promise<string> {
+    const user = await User.findOne({ where: { email } });
     if (!user || !user.password) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      throw new InvalidCredentialsError("Invalid credentials");
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new InvalidCredentialsError("Invalid credentials");
     }
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+
+    return this.generateToken(user);
+  },
+
+  // Generate JWT token
+  generateToken(user: IUser): string {
+    return jwt.sign({ id: user.id, email: user.email }, secretKey, {
       expiresIn: "1h",
     });
-    res.json({ token });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      res.status(400).json({ error: err.errors });
-    } else {
-      logger.error("Login error:", err);
-      res.status(500).json({ error: "Server Error" });
-    }
+  },
+};
+
+export default AuthService;
+
+// File: dist/src/services/profileService.ts
+import User from "../models/user";
+import { IUser } from "@/types/user";
+
+// Custom Error Classes
+export class InvalidUserIdError extends Error {
+  constructor(message = "Invalid user ID") {
+    super(message);
+    this.name = "InvalidUserIdError";
   }
-});
-export default router;
+}
+
+export class UserNotFoundError extends Error {
+  constructor(userId: number) {
+    super(`User with ID ${userId} not found`);
+    this.name = "UserNotFoundError";
+  }
+}
+
+export class ConfigurationError extends Error {
+  constructor(message = "Configuration error") {
+    super(message);
+    this.name = "ConfigurationError";
+  }
+}
+
+class ProfileService {
+  /**
+   * Retrieve a user's profile by user ID.
+   *
+   * @param userId - The ID of the user
+   * @returns The user's profile as an IUser object
+   * @throws InvalidUserIdError if the user ID is invalid
+   * @throws UserNotFoundError if the user does not exist
+   */
+  async getProfile(userId: number): Promise<IUser> {
+    if (!Number.isInteger(userId) || userId <= 0) {
+      throw new InvalidUserIdError();
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new UserNotFoundError(userId);
+    }
+    return user.toJSON() as IUser;
+  }
+
+  /**
+   * Update a user's profile by user ID.
+   *
+   * @param userId - The ID of the user
+   * @param updates - The updates to apply to the user's profile
+   * @returns The updated user's profile as an IUser object
+   * @throws InvalidUserIdError if the user ID is invalid
+   * @throws UserNotFoundError if the user does not exist
+   */
+  async updateProfile(
+    userId: number,
+    updates: Partial<Omit<IUser, "id">>,
+  ): Promise<IUser> {
+    if (!Number.isInteger(userId) || userId <= 0) {
+      throw new InvalidUserIdError();
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      throw new UserNotFoundError(userId);
+    }
+
+    await user.update(updates);
+    return user.toJSON() as IUser;
+  }
+}
+
+export default new ProfileService();
 
 // File: dist/src/types/user.ts
 export interface IUser {
@@ -1601,166 +6456,258 @@ export interface IUser {
   facebookId?: string;
 }
 
+// File: dist/src/utils/errorHandlers.ts
+import { Response } from "express";
+import { ZodError } from "zod";
+import {
+  InvalidUserIdError,
+  UserNotFoundError,
+  ConfigurationError,
+} from "@services/profileService";
+import {
+  UserExistsError,
+  InvalidCredentialsError,
+} from "@services/authService";
+import { StatusCodes } from "@/constants/http-status-codes";
+
+/**
+ * Handle service errors and send appropriate responses.
+ *
+ * @param err - Error object
+ * @param res - Express response object
+ */
+export const handleServiceError = (err: any, res: Response) => {
+  if (err instanceof ZodError) {
+    res.status(StatusCodes.BAD_REQUEST).json({ errors: err.errors });
+  } else if (err instanceof UserExistsError) {
+    res.status(StatusCodes.CONFLICT).json({ error: err.message });
+  } else if (err instanceof InvalidCredentialsError) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ error: "Invalid credentials" });
+  } else if (err instanceof ConfigurationError) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal server error" });
+  } else if (err instanceof InvalidUserIdError) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: err.message });
+  } else if (err instanceof UserNotFoundError) {
+    res.status(StatusCodes.NOT_FOUND).json({ error: err.message });
+  } else {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal server error" });
+  }
+};
+
+/**
+ * Log errors for debugging purposes.
+ *
+ * @param context - Context or source of the error
+ * @param err - Error object
+ */
+export const logError = (context: string, err: any) => {
+  console.error(`Error in ${context}:`, err);
+};
+
+// File: dist/src/validators/authValidators.ts
+import { z } from "zod";
+
+const registerSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+/**
+ * Validate registration input.
+ *
+ * @param data - Input data for registration
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+export const validateRegister = (data: any) => {
+  return registerSchema.parse(data);
+};
+
+/**
+ * Validate login input.
+ *
+ * @param data - Input data for login
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+export const validateLogin = (data: any) => {
+  return loginSchema.parse(data);
+};
+
+// File: dist/src/validators/profileValidators.ts
+import { z } from "zod";
+import { InvalidUserIdError } from "@services/profileService";
+
+const userIdSchema = z.number().int().positive();
+const userProfileUpdateSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  bio: z.string().optional(),
+  // Add other fields as needed
+});
+
+/**
+ * Validate and parse user ID.
+ *
+ * @param id - User ID from request parameters
+ * @returns Validated user ID
+ * @throws InvalidUserIdError if validation fails
+ */
+export const validateUserId = (id: any): number => {
+  const parsedId = userIdSchema.safeParse(Number(id));
+  if (!parsedId.success) {
+    throw new InvalidUserIdError(); // No argument needed
+  }
+  return parsedId.data;
+};
+
+/**
+ * Validate and parse user profile update data.
+ *
+ * @param data - User profile data from request body
+ * @returns Validated user profile data
+ * @throws ValidationError if validation fails
+ */
+export const validateUserProfileUpdate = (data: any) => {
+  return userProfileUpdateSchema.parse(data);
+};
+
 // File: dist/tests/auth.test.js
 "use strict";
-var __awaiter =
-  (this && this.__awaiter) ||
-  function (thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P
-        ? value
-        : new P(function (resolve) {
-            resolve(value);
-          });
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-
-    return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-
-      function step(result) {
-        result.done
-          ? resolve(result.value)
-          : adopt(result.value).then(fulfilled, rejected);
-      }
-
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// tests/auth.test.ts
-const express_1 = __importDefault(require("express"));
-const supertest_1 = __importDefault(require("supertest")); // Use default import for supertest
-const db_1 = __importDefault(require("../config/db"));
-const auth_1 = __importDefault(require("../routes/auth"));
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use("/api/auth", auth_1.default);
-beforeAll(() =>
-  __awaiter(void 0, void 0, void 0, function* () {
-    yield db_1.default.sync({ force: true }); // Reset the database
-  }),
-);
-afterAll(() =>
-  __awaiter(void 0, void 0, void 0, function* () {
-    yield db_1.default.close();
-  }),
-);
+const supertest_1 = __importDefault(require("supertest"));
+const server_1 = __importDefault(require("../server"));
+const user_1 = __importDefault(require("../models/user"));
+const bcrypt = __importStar(require("bcrypt"));
 describe("Auth Endpoints", () => {
-  it("should register a new user", () =>
-    __awaiter(void 0, void 0, void 0, function* () {
-      const res = yield (0, supertest_1.default)(app)
-        .post("/api/auth/register")
-        .send({
-          email: "test@example.com",
-          password: "password123",
+    it("should register a new user", async () => {
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/register").send({
+            email: "newuser@example.com",
+            password: "password123",
         });
-      expect(res.statusCode).toEqual(201);
-      expect(res.body).toHaveProperty("token");
-    }));
-  it("should login an existing user", () =>
-    __awaiter(void 0, void 0, void 0, function* () {
-      const res = yield (0, supertest_1.default)(app)
-        .post("/api/auth/login")
-        .send({
-          email: "test@example.com",
-          password: "password123",
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty("token");
+    });
+    it("should not register a user with existing email", async () => {
+        const hashedPassword = await bcrypt.hash("existingpassword", 10);
+        await user_1.default.create({
+            email: "existing@example.com",
+            password: hashedPassword,
         });
-      expect(res.statusCode).toEqual(200);
-      expect(res.body).toHaveProperty("token");
-    }));
-  it("should not login with incorrect credentials", () =>
-    __awaiter(void 0, void 0, void 0, function* () {
-      const res = yield (0, supertest_1.default)(app)
-        .post("/api/auth/login")
-        .send({
-          email: "test@example.com",
-          password: "wrongpassword",
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/register").send({
+            email: "existing@example.com",
+            password: "password123",
         });
-      expect(res.statusCode).toEqual(401);
-    }));
+        expect(res.statusCode).toEqual(409);
+        expect(res.body).toHaveProperty("error");
+    });
+    it("should login an existing user", async () => {
+        const hashedPassword = await bcrypt.hash("testpassword", 10);
+        await user_1.default.create({
+            email: "logintest@example.com",
+            password: hashedPassword,
+        });
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/login").send({
+            email: "logintest@example.com",
+            password: "testpassword",
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty("token");
+    });
+    it("should not login with incorrect credentials", async () => {
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/login").send({
+            email: "logintest@example.com",
+            password: "wrongpassword",
+        });
+        expect(res.statusCode).toEqual(401);
+    });
+    it("should handle validation errors on register", async () => {
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/register").send({
+            email: "invalidemail",
+            password: "short",
+        });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toHaveProperty("errors");
+    });
 });
 
-// File: dist/tests/auth.test.ts
-import express from "express";
-import request from "supertest";
-import sequelize from "../config/db";
-import authRoutes from "../routes/auth";
-
-const app = express();
-app.use(express.json());
-app.use("/api/auth", authRoutes);
-
-beforeAll(async () => {
-  await sequelize.sync({ force: true }); // Reset the database
-});
-
-afterAll(async () => {
-  await sequelize.close();
-});
-
-describe("Auth Endpoints", () => {
-  it("should register a new user", async () => {
-    const res = await request(app).post("/api/auth/register").send({
-      email: "test@example.com",
-      password: "password123",
+// File: dist/tests/profile.test.js
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const supertest_1 = __importDefault(require("supertest"));
+const server_1 = __importDefault(require("../server"));
+const user_1 = __importDefault(require("../models/user"));
+describe("Profile Endpoints", () => {
+    let token;
+    let userId;
+    beforeAll(async () => {
+        await global.setupTestUser();
+        const user = await user_1.default.findOne({ where: { email: "test@example.com" } });
+        if (!user) {
+            throw new Error("Test user not found");
+        }
+        userId = user.id;
+        const res = await (0, supertest_1.default)(server_1.default).post("/api/auth/login").send({
+            email: "test@example.com",
+            password: "testpassword",
+        });
+        token = res.body.token;
     });
-    expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty("token");
-  });
-
-  it("should not register a user with existing email", async () => {
-    const res = await request(app).post("/api/auth/register").send({
-      email: "test@example.com",
-      password: "password123",
+    it("should get a user profile", async () => {
+        const res = await (0, supertest_1.default)(server_1.default)
+            .get(`/api/profile/${userId}`)
+            .set("Authorization", `Bearer ${token}`);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty("email", "test@example.com");
     });
-    expect(res.statusCode).toEqual(400);
-    expect(res.body).toHaveProperty("error");
-  });
-
-  it("should login an existing user", async () => {
-    const res = await request(app).post("/api/auth/login").send({
-      email: "test@example.com",
-      password: "password123",
+    it("should update a user profile", async () => {
+        const res = await (0, supertest_1.default)(server_1.default)
+            .put(`/api/profile/${userId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+            email: "updated@example.com",
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty("email", "updated@example.com");
     });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("token");
-  });
-
-  it("should not login with incorrect credentials", async () => {
-    const res = await request(app).post("/api/auth/login").send({
-      email: "test@example.com",
-      password: "wrongpassword",
-    });
-    expect(res.statusCode).toEqual(401);
-  });
-
-  it("should handle validation errors on register", async () => {
-    const res = await request(app).post("/api/auth/register").send({
-      email: "invalidemail",
-      password: "short",
-    });
-    expect(res.statusCode).toEqual(400);
-    expect(res.body).toHaveProperty("error");
-  });
 });
 
 // File: dist/tests/utils.test.js
@@ -1788,41 +6735,148 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // tests/utils.test.ts
 const bcrypt = __importStar(require("bcrypt"));
 describe("Utility Functions", () => {
-    it("should hash a password correctly", () => __awaiter(void 0, void 0, void 0, function* () {
+    it("should hash a password correctly", async () => {
         const password = "testpassword";
-        const hash = yield bcrypt.hash(password, 10);
-        const match = yield bcrypt.compare(password, hash);
+        const hash = await bcrypt.hash(password, 10);
+        const match = await bcrypt.compare(password, hash);
         expect(match).toBe(true);
-    }));
-});
-
-// File: dist/tests/utils.test.ts
-// tests/utils.test.ts
-import * as bcrypt from "bcrypt";
-
-describe("Utility Functions", () => {
-  it("should hash a password correctly", async () => {
-    const password = "testpassword";
-    const hash = await bcrypt.hash(password, 10);
-    const match = await bcrypt.compare(password, hash);
-    expect(match).toBe(true);
-  });
+    });
 });
 
 // File: dist/types/user.js
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+
+// File: dist/utils/errorHandlers.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.logError = exports.handleServiceError = void 0;
+const zod_1 = require("zod");
+const profileService_1 = require("@services/profileService");
+const authService_1 = require("@services/authService");
+const http_status_codes_1 = require("@/constants/http-status-codes");
+/**
+ * Handle service errors and send appropriate responses.
+ *
+ * @param err - Error object
+ * @param res - Express response object
+ */
+const handleServiceError = (err, res) => {
+    if (err instanceof zod_1.ZodError) {
+        res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ errors: err.errors });
+    }
+    else if (err instanceof authService_1.UserExistsError) {
+        res.status(http_status_codes_1.StatusCodes.CONFLICT).json({ error: err.message });
+    }
+    else if (err instanceof authService_1.InvalidCredentialsError) {
+        res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json({ error: "Invalid credentials" });
+    }
+    else if (err instanceof profileService_1.ConfigurationError) {
+        res
+            .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ error: "Internal server error" });
+    }
+    else if (err instanceof profileService_1.InvalidUserIdError) {
+        res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ error: err.message });
+    }
+    else if (err instanceof profileService_1.UserNotFoundError) {
+        res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({ error: err.message });
+    }
+    else {
+        res
+            .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)
+            .json({ error: "Internal server error" });
+    }
+};
+exports.handleServiceError = handleServiceError;
+/**
+ * Log errors for debugging purposes.
+ *
+ * @param context - Context or source of the error
+ * @param err - Error object
+ */
+const logError = (context, err) => {
+    console.error(`Error in ${context}:`, err);
+};
+exports.logError = logError;
+
+// File: dist/validators/authValidators.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateLogin = exports.validateRegister = void 0;
+const zod_1 = require("zod");
+const registerSchema = zod_1.z.object({
+    email: zod_1.z.string().email(),
+    password: zod_1.z.string().min(6),
+});
+const loginSchema = zod_1.z.object({
+    email: zod_1.z.string().email(),
+    password: zod_1.z.string().min(6),
+});
+/**
+ * Validate registration input.
+ *
+ * @param data - Input data for registration
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+const validateRegister = (data) => {
+    return registerSchema.parse(data);
+};
+exports.validateRegister = validateRegister;
+/**
+ * Validate login input.
+ *
+ * @param data - Input data for login
+ * @returns Validated data
+ * @throws Validation error if input is invalid
+ */
+const validateLogin = (data) => {
+    return loginSchema.parse(data);
+};
+exports.validateLogin = validateLogin;
+
+// File: dist/validators/profileValidators.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateUserProfileUpdate = exports.validateUserId = void 0;
+const zod_1 = require("zod");
+const profileService_1 = require("@services/profileService");
+const userIdSchema = zod_1.z.number().int().positive();
+const userProfileUpdateSchema = zod_1.z.object({
+    name: zod_1.z.string().optional(),
+    email: zod_1.z.string().email().optional(),
+    bio: zod_1.z.string().optional(),
+    // Add other fields as needed
+});
+/**
+ * Validate and parse user ID.
+ *
+ * @param id - User ID from request parameters
+ * @returns Validated user ID
+ * @throws InvalidUserIdError if validation fails
+ */
+const validateUserId = (id) => {
+    const parsedId = userIdSchema.safeParse(Number(id));
+    if (!parsedId.success) {
+        throw new profileService_1.InvalidUserIdError(); // No argument needed
+    }
+    return parsedId.data;
+};
+exports.validateUserId = validateUserId;
+/**
+ * Validate and parse user profile update data.
+ *
+ * @param data - User profile data from request body
+ * @returns Validated user profile data
+ * @throws ValidationError if validation fails
+ */
+const validateUserProfileUpdate = (data) => {
+    return userProfileUpdateSchema.parse(data);
+};
+exports.validateUserProfileUpdate = validateUserProfileUpdate;
 

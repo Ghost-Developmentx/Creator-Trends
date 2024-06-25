@@ -1,5 +1,5 @@
-import { DataTypes, Model, Optional, FindOptions } from "sequelize";
-import sequelize from "../config/db";
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from "@config/db";
 
 // Define the model attributes
 interface UserAttributes {
@@ -8,11 +8,15 @@ interface UserAttributes {
   password: string;
   googleId?: string;
   facebookId?: string;
+  username?: string; // Add this line
 }
 
 // Define the creation attributes without id, since it will be auto-generated
 interface UserCreationAttributes
-  extends Optional<UserAttributes, "id" | "googleId" | "facebookId"> {}
+  extends Optional<
+    UserAttributes,
+    "id" | "googleId" | "facebookId" | "username"
+  > {} // Add "username" here
 
 // User model class definition
 class User
@@ -24,6 +28,7 @@ class User
   public password!: string;
   public googleId?: string;
   public facebookId?: string;
+  public username?: string; // Add this line
 }
 
 // Initialize the model
@@ -51,6 +56,11 @@ User.init(
       allowNull: true,
     },
     facebookId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    username: {
+      // Add this block
       type: DataTypes.STRING,
       allowNull: true,
     },

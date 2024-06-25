@@ -10,6 +10,9 @@ const LOG_LEVEL = process.env.LOG_LEVEL || "info";
 const SERVICE_NAME = process.env.SERVICE_NAME || "user-service";
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
+// Ensure log directory exists before creating logger
+ensureLogDirectoryExists();
+
 // ----- Logger Configuration -----
 
 const logger = createLogger({
@@ -48,17 +51,20 @@ if (!IS_PRODUCTION) {
   );
 }
 
-// ----- Ensure Log Directory Exists -----
-ensureLogDirectoryExists();
-
 // ----- Utility Functions -----
 
+/**
+ * Ensure the log directory exists.
+ * Creates the directory if it doesn't exist.
+ */
 function ensureLogDirectoryExists() {
-  try {
-    fs.mkdirSync(LOG_DIR, { recursive: true });
-  } catch (error) {
-    logger.error("Error creating log directory:", error);
-    process.exit(1);
+  if (!fs.existsSync(LOG_DIR)) {
+    try {
+      fs.mkdirSync(LOG_DIR, { recursive: true });
+    } catch (error) {
+      console.error("Error creating log directory:", error);
+      process.exit(1);
+    }
   }
 }
 

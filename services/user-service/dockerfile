@@ -1,113 +1,49 @@
 # Stage 1: Build Stage
 FROM node:18-alpine AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Install PostgreSQL client, nano text editor, and git for potential package installations
+# Install necessary tools
 RUN apk add --no-cache postgresql-client nano git
 
-# Copy .env files
-COPY .env .env
-COPY .env.local .env.local
-COPY .env.docker .env.docker
-COPY .env.test .env.test
-
 # Copy package files and install dependencies
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 
-# Install Jest and other test dependencies
-RUN npm install --save-dev jest ts-jest @types/jest supertest
-
-# Copy the rest of your app's source code
+# Copy all files
 COPY . .
 
-# Run the switch-env.js script to set up environment variables
+# Switch to Docker environment and build the project
 RUN node switch-env.js docker
-
-# Build the app
 RUN npm run build
 
 # Stage 2: Production Stage
-FROM node:18-alpine AS production
+FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Install PostgreSQL client and nano text editor
+# Install necessary tools
 RUN apk add --no-cache postgresql-client nano
 
-# Copy only the necessary files from the builder stage
-COPY --from=builder /app/config/config.js ./config/config.js
-COPY --from=builder /app/migrations ./migrations
+# Copy package files and install production dependencies
+COPY package*.json ./
+RUN npm install --production && npm install module-alias
+
+# Copy built files and necessary configurations from the builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-
-# Copy .env files to the production stage
+COPY --from=builder /app/config ./config
+COPY --from=builder /app/docs ./docs
+COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/.env .env
-COPY --from=builder /app/.env.local .env.local
 COPY --from=builder /app/.env.docker .env.docker
-COPY --from=builder /app/.env.test .env.test
-
-# Copy server.ts file
-COPY --from=builder /app/src/server.ts ./src/server.ts
-
-# Copy Jest config file and test setup
-COPY --from=builder /app/jest.config.ts ./jest.config.ts
-COPY --from=builder /app/jest.setup.ts ./jest.setup.ts
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
-COPY --from=builder /app/global.d.ts ./global.d.ts
-COPY --from=builder /app/jest.global-setup.ts ./jest.global-setup.ts
-COPY --from=builder /app/jest.global-teardown.ts ./jest.global-teardown.ts
-COPY --from=builder /app/src/config/swagger.ts ./src/config/swagger.ts
-COPY --from=builder /app/docs/swagger.yaml ./src/docs/swagger.yaml
-
-# Copy db.ts and other necessary config files
-COPY --from=builder /app/src/config/db.ts ./src/config/db.ts
-COPY --from=builder /app/src/routes/auth.ts ./src/routes/auth.ts
-COPY --from=builder /app/src/config/logger.ts ./src/config/logger.ts
-COPY --from=builder /app/src/models/user.ts ./src/models/user.ts
-COPY --from=builder /app/src/types/user.ts ./src/types/user.ts
-
-# Copy additional files and directories
-COPY --from=builder /app/src/controllers/authController.ts ./src/controllers/authController.ts
-COPY --from=builder /app/src/controllers/profileController.ts ./src/controllers/profileController.ts
-COPY --from=builder /app/src/routes/profile.ts ./src/routes/profile.ts
-COPY --from=builder /app/src/services/authService.ts ./src/services/authService.ts
-COPY --from=builder /app/src/services/profileService.ts ./src/services/profileService.ts
-
-# Copy new files created during refactoring
-COPY --from=builder /app/src/constants/http-status-codes.ts ./src/constants/http-status-codes.ts
-COPY --from=builder /app/src/validators/authValidators.ts ./src/validators/authValidators.ts
-COPY --from=builder /app/src/validators/profileValidators.ts ./src/validators/profileValidators.ts
-COPY --from=builder /app/src/utils/errorHandlers.ts ./src/utils/errorHandlers.ts
-
-# Copy tests directory
-COPY --from=builder /app/src/tests ./src/tests
-
-# Copy verification and environment switching scripts
 COPY --from=builder /app/verifyBuild.js ./verifyBuild.js
-COPY --from=builder /app/switch-env.js ./switch-env.js
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
-# Ensure production dependencies are installed
-RUN npm ci --production
-
-# Run the verifyBuild.js script to check the build integrity
+# Verify the build
 RUN node verifyBuild.js
 
 # Expose the application port
 EXPOSE 3001
 
-# Set the command to start your app
-CMD ["node", "dist/server.js"]
-
-# Stage 3: Testing Stage
-FROM production AS test
-
-# Install Jest and other test dependencies
-RUN npm install --save-dev jest ts-jest @types/jest supertest
-
-# Run tests
-CMD ["npm", "run", "test:clean"]
+# Start the application
+CMD ["node", "-r", "module-alias/register", "dist/server.js"]

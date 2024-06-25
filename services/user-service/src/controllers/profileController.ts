@@ -47,3 +47,22 @@ export const updateProfile = async (
     handleServiceError(error, res);
   }
 };
+
+/**
+ * Get all user profiles.
+ *
+ * @param _req - Express request object
+ * @param res - Express response object
+ */
+export const getAllProfiles = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    const users = await profileService.getAllProfiles();
+    res.status(StatusCodes.OK).json(users);
+  } catch (error) {
+    logError("getAllProfiles", error);
+    handleServiceError(error, res);
+  }
+};
